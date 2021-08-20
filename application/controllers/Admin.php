@@ -55,22 +55,87 @@ class Admin extends CI_Controller {
 
 	public function profile($id = NULL, $option = NULL)
 	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+						$data['profile'] = $this->admin->detail(array('id' => (!empty($id))?$id:$this->session->userdata(strtolower($this->router->fetch_class()))))->row();
 		switch ($option)
 		{
 			case 'create':
-				$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
 				$this->template->load('profile/create', $data);
 			break;
 
 			case 'edit':
-				$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
-				$data['profile'] = $this->admin->detail(array('id' => (!empty($id))?$id:$this->session->userdata(strtolower($this->router->fetch_class()))))->row();
-				$this->template->load('profile/edit', $data);
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+					$this->form_validation->set_rules('username', 'Username', 'trim');
+					$this->form_validation->set_rules('password', 'Password', 'trim');
+					$this->form_validation->set_rules('full_name', 'Full Name', 'trim');
+
+					if ($this->form_validation->run() == TRUE)
+					{
+						$update_data = array(
+							'email' => $this->input->post('email'),
+							'username' => $this->input->post('username'),
+							'full_name' => $this->input->post('full_name')
+						);
+
+						if (!empty($this->input->post('password')))
+						{
+							$update_data['password'] = sha1($this->input->post('password'));
+						}
+
+						if (!empty($_FILES['photo']))
+						{
+							$config['upload_path'] = './uploads/';
+							$config['allowed_types'] = 'png|jpg|jpeg';
+							$config['file_name'] = url_title('user-profile-'.$this->uri->segment(3));
+							$this->load->library('upload', $config);
+
+							if (!$this->upload->do_upload('photo'))
+							{
+								$this->session->set_flashdata('upload_photo_error', $this->upload->display_errors());
+							}
+							else
+							{
+								// resize
+								$config['image_library']	= 'gd2';
+								$config['source_image']		= $this->upload->data()['full_path'];
+								$config['maintain_ratio']	= TRUE;
+								$config['width']			= 160;
+								$config['height']			= 160;
+								// watermark
+								$config['wm_text'] 			= strtolower($this->router->fetch_class());
+								$config['wm_type'] 			= 'text';
+								$config['wm_font_color'] 	= 'ffffff';
+								$config['wm_font_size'] 	= 12;
+								$config['wm_vrt_alignment'] = 'middle';
+								$config['wm_hor_alignment'] = 'center';
+								$this->load->library('image_lib', $config);
+
+								if ($this->image_lib->resize())
+								{
+									$this->image_lib->watermark();
+								}
+
+								$update_data['photo'] = $this->upload->data()['file_name'];
+							}
+						}
+
+						$this->admin->update(array('id' => $id), $update_data);
+						redirect(base_url($this->router->fetch_class().'/profile/'.$id) ,'refresh');
+					}
+					else
+					{
+						$this->template->load('profile/edit', $data);
+					}
+				}
+				else
+				{
+					$this->template->load('profile/edit', $data);
+				}
 			break;
 
 			default:
-				$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
-				$data['profile'] = $this->admin->detail(array('id' => (!empty($id))?$id:$this->session->userdata(strtolower($this->router->fetch_class()))))->row();
 				$this->template->load('profile/view', $data);
 			break;
 		}

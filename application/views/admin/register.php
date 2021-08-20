@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Registration Page</title>
+	<title>Sistem Administrasi TA|KP - Pendaftaran</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.7 -->
@@ -35,7 +35,7 @@
 <body class="hold-transition register-page">
 <div class="register-box">
 	<div class="register-logo">
-		<a href="<?php echo base_url() ?>">Welcome to <b>Codeigniter Starter</b></a>
+		<a href="<?php echo base_url() ?>">Sistem Administrasi <p><b>TA|KP</b></p></a>
 	</div>
 
 	<div class="register-box-body">

@@ -30,6 +30,10 @@ class Admin extends MY_Model
 		return $this->db->get_where('admin', $where);
 	}
 
+	public function update($where, $data) {
+		return $this->db->update('admin', $data, $where);
+	}
+
 	public function where($identity) {
 		$this->db->group_start()
 			->where('username', $identity)
