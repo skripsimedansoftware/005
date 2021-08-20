@@ -164,7 +164,7 @@ desired effect
 					</ul>
 				</li>
 				<li class="<?php echo ($this->router->fetch_method() == 'lokasi')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/lokasi') ?>"><i class="fa fa-map-marker"></i> <span>Kelola Lokasi</span></a></li>
-				<li class="<?php echo ($this->router->fetch_method() == 'cetak_sk')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/cetak_sk') ?>"><i class="fa fa-print"></i> <span>Surat Pembimbing</span></a></li>
+				<li class="<?php echo ($this->router->fetch_method() == 'cetak_sk')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/cetak_sk') ?>"><i class="fa fa-print"></i> <span>Nama Pembimbing</span></a></li>
 			</ul>
 			<!-- /.sidebar-menu -->
 		</section>
