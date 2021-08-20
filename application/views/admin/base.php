@@ -127,7 +127,7 @@ desired effect
 
 			<!-- Sidebar Menu -->
 			<ul class="sidebar-menu" data-widget="tree">
-				<li class="header">MENU</li>
+				<li class="header">Sistem Administrasi - TA | KP</li>
 				<!-- Optionally, you can add icons to the links -->
 				<li class="<?php echo ($this->router->fetch_method() == 'index')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class()) ?>"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
 				<li class="treeview <?php echo (in_array($this->router->fetch_method(), ['dosen', 'mahasiswa']))?'active':'' ?>">
