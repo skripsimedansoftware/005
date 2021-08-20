@@ -1,6 +1,6 @@
-# Sistem Administrasi Tugas Akhir dan Kerja Praktek 2021
+# Sistem Administrasi Tugas Akhir dan Kerja Praktek
 
-## User & Password
+## User Account
 
 > Level Admin
 
@@ -10,11 +10,15 @@ username : admin
 password : admin
 ```
 
+> Level Dosen
+
 ```text
 email : dosen@sistem.administrasi-takp.com
 nik : 123456
 password : dosen
 ```
+
+> Level Mahasiswa
 
 ```text
 email : mahasiswa@sistem.administrasi-takp.com
