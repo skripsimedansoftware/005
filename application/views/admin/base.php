@@ -127,21 +127,44 @@ desired effect
 
 			<!-- Sidebar Menu -->
 			<ul class="sidebar-menu" data-widget="tree">
-				<li class="header">HEADER</li>
+				<li class="header">MENU</li>
 				<!-- Optionally, you can add icons to the links -->
-				<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-				<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-				<li class="treeview">
-					<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+				<li class="<?php echo ($this->router->fetch_method() == 'index')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class()) ?>"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
+				<li class="treeview <?php echo (in_array($this->router->fetch_method(), ['dosen', 'mahasiswa']))?'active':'' ?>">
+					<a href="#"><i class="fa fa-users"></i> <span>Kelola Pengguna</span>
 						<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-							</span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="#">Link in level 2</a></li>
-						<li><a href="#">Link in level 2</a></li>
+						<li class="<?php echo ($this->router->fetch_method() == 'dosen')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/dosen') ?>">Dosen</a></li>
+						<li class="<?php echo ($this->router->fetch_method() == 'mahasiswa')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/mahasiswa') ?>">Mahasiswa</a></li>
 					</ul>
 				</li>
+				<li class="treeview <?php echo (in_array($this->router->fetch_method(), ['judul_kerja_praktek', 'judul_skripsi']))?'active':'' ?>">
+					<a href="#"><i class="fa fa-book"></i> <span>Daftar Judul</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li class="<?php echo ($this->router->fetch_method() == 'judul_kerja_praktek')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/judul_kerja_praktek') ?>">Kerja Praktek</a></li>
+						<li class="<?php echo ($this->router->fetch_method() == 'judul_skripsi')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/judul_skripsi') ?>">Skripsi</a></li>
+					</ul>
+				</li>
+				<li class="treeview <?php echo (in_array($this->router->fetch_method(), ['jadwal_seminar_hasil', 'jadwal_sidang']))?'active':'' ?>">
+					<a href="#"><i class="fa fa-clock-o"></i> <span>Kelola Jadwal</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li class="<?php echo ($this->router->fetch_method() == 'jadwal_seminar_hasil')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/jadwal_seminar_hasil') ?>">Seminar Hasil</a></li>
+						<li class="<?php echo ($this->router->fetch_method() == 'jadwal_sidang')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/jadwal_sidang') ?>">Sidang</a></li>
+					</ul>
+				</li>
+				<li class="<?php echo ($this->router->fetch_method() == 'lokasi')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/lokasi') ?>"><i class="fa fa-map-marker"></i> <span>Kelola Lokasi</span></a></li>
+				<li class="<?php echo ($this->router->fetch_method() == 'cetak_sk')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/cetak_sk') ?>"><i class="fa fa-print"></i> <span>Surat Pembimbing</span></a></li>
 			</ul>
 			<!-- /.sidebar-menu -->
 		</section>
@@ -158,10 +181,10 @@ desired effect
 	<footer class="main-footer">
 		<!-- To the right -->
 		<div class="pull-right hidden-xs">
-			Anything you want
+			skripsi
 		</div>
 		<!-- Default to the left -->
-		<strong>Copyright &copy; <?php echo date('Y') ?> <a href="#">Medan Software</a>.</strong> All rights reserved.
+		<strong>Copyright &copy; <?php echo date('Y') ?> <a href="#">Sistem Administrasi TA|KP</a> | </strong> All rights reserved.
 	</footer>
 
 	<!-- /.control-sidebar -->
