@@ -122,7 +122,7 @@ class Dosen extends CI_Controller {
 							}
 						}
 
-						$this->dosen->update(array('id' => $id), $update_data);
+						$this->dosen->suting(array('id' => $id), $update_data);
 						redirect(base_url($this->router->fetch_class().'/profile/'.$id) ,'refresh');
 					}
 					else
