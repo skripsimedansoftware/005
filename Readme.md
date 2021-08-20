@@ -1,88 +1,27 @@
-# Medan Software - Codeigniter Starter :coffee:
+# Sistem Administrasi Tugas Akhir dan Kerja Praktek 2021
 
-## Note!!
+## User & Password
 
-- Change email config & reset password email from
+> Level Admin
 
-## Template Loader
-
-```php
-$config = array(
-	'module' => 'admin'
-);
-$this->load->library('template', $config);
-
+```text
+email : agungmasda29@gmail.com
+username : admin
+password : admin
 ```
 
-### controllers/Admin.php
-
-```php
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Admin extends CI_Controller
-{
-	/**
-	 * constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$config = array(
-			'module' => 'admin'
-		);
-		$this->load->library('template', $config);
-	}
-
-	public function index()
-	{
-		$data['title'] = 'Page Title';
-		$this->template->load('home', $data);
-	}
-}
+```text
+email : dosen@sistem.administrasi-takp.com
+nik : 123456
+password : dosen
 ```
 
-### models/Admin.php
-
-```php
-<?php
-/**
- * @package Codeigniter
- * @subpackage Admin
- * @category Model
- * @author Agung Dirgantara <agungmasda29@gmail.com>
- */
-
-namespace Angeli;
-
-class Admin extends MY_Model
-{
-	public function __construct()
-	{
-		parent::__construct();
-	}
-}
-
-/* End of file Admin.php */
-/* Location : ./application/models/Admin.php */
+```text
+email : mahasiswa@sistem.administrasi-takp.com
+npm : 123456
+password : mahasiswa
 ```
 
-### views/admin/base.php
+## Database Relationships
 
-```html
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Base</title>
-</head>
-<body>
-<?php echo $page; ?>
-</body>
-</html>
-```
-
-### views/admin/home.php
-
-```html
-<div class="row">Page Content Here</div>
-```
+![Database Design](database.png)
