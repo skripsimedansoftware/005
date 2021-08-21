@@ -53,6 +53,40 @@ class Dosen extends CI_Controller {
 		}
 	}
 
+	public function konsultasi($id_judul = NULL)
+	{
+		$data['session'] = $this->dosen->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		if ($this->input->method() == 'post')
+		{
+			$config['upload_path'] = './uploads/';
+			$config['allowed_types'] = '*';
+			$this->load->library('upload', $config);
+			$dokumen = NULL;
+			if ($this->upload->do_upload('attachment'))
+			{
+				$dokumen = $this->upload->data()['file_name'];
+			}
+
+			$this->konsultasi->tambah(array('judul_id' => $id_judul, 'pengirim' => 'dosen', 'dosen' => $this->session->userdata(strtolower($this->router->fetch_class())), 'text' => $this->input->post('message'), 'dokumen' => $dokumen, 'time' => nice_date(unix_to_human(now('Asia/Jakarta')), 'Y-m-d H:i:s')));
+
+			redirect(base_url($this->router->fetch_class().'/konsultasi/'.$id_judul), 'refresh');
+		}
+		else
+		{
+			if (!empty($id_judul))
+			{
+				$data['judul_mahasiswa'] = $this->judul_mahasiswa->detail(array('id' => $id_judul))->row();
+				$data['konsultasi'] = $this->konsultasi->ambil_data(1000, $id_judul)->result_array();
+				$this->template->load('konsultasi_detail', $data);
+			}
+			else
+			{
+				$data['konsultasi'] = array_merge($this->dosen->konsultasi_mahasiswa($this->session->userdata(strtolower($this->router->fetch_class())))['dosen_kerja_praktek'], $this->dosen->konsultasi_mahasiswa($this->session->userdata(strtolower($this->router->fetch_class())))['dosen_tugas_akhir']);
+				$this->template->load('konsultasi', $data);
+			}
+		}
+	}
+
 	public function profile($id = NULL, $option = NULL)
 	{
 		$data['session'] = $this->dosen->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
