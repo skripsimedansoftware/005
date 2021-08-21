@@ -7,7 +7,7 @@ class Mahasiswa extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => 'mahasiswa']);
-		$this->load->model(['mahasiswa', 'email_confirm']);
+		$this->load->model(['mahasiswa', 'email_confirm', 'dosen', 'dokumen_persyaratan', 'dosen_pembimbing', 'judul_mahasiswa', 'konsultasi', 'jadwal', 'lokasi_jadwal']);
 		if (empty($this->session->userdata('mahasiswa')))
 		{
 			if (!in_array($this->router->fetch_method(), ['login', 'register', 'forgot_password', 'email_confirm', 'reset_password']))
@@ -138,6 +138,73 @@ class Mahasiswa extends CI_Controller {
 			default:
 				$this->template->load('profile/view', $data);
 			break;
+		}
+	}
+
+	public function judul_kerja_praktek()
+	{
+		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->judul_mahasiswa->detail(array('mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())), 'jenis' => 'kerja-praktek'));
+		$data['dokumen_persyaratan'] = $this->dokumen_persyaratan->detail(array('mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())), 'tujuan' => 'kerja-praktek'));
+		$this->template->load('judul_kerja_praktek', $data);
+	}
+
+	public function judul_skripsi()
+	{
+		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->judul_mahasiswa->detail(array('mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())), 'jenis' => 'tugas-akhir'));
+		$data['dokumen_persyaratan'] = $this->dokumen_persyaratan->detail(array('mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())), 'tujuan' => 'tugas-akhir'));
+		$this->template->load('judul_skripsi', $data);
+	}
+
+	public function tambah_judul($jenis)
+	{
+		$this->load->helper('inflector');
+		if ($this->input->method() == 'post')
+		{
+			$this->form_validation->set_rules('judul', 'Judul', 'trim|required|min_length[10]|max_length[100]');
+			if ($this->form_validation->run() == TRUE)
+			{
+				$config['upload_path'] = './uploads/';
+				$config['allowed_types'] = '*';
+				$config['file_name'] = url_title(str_replace(' ', '-', $this->input->post('judul')).'--'.$this->session->userdata('pengguna')['nama']);
+				$this->load->library('upload', $config);
+				if (!$this->upload->do_upload('dokumen'))
+				{
+					$this->session->set_flashdata('form_error', $this->upload->display_errors());
+					redirect(base_url($this->router->fetch_class().'/tambah_judul/'.$jenis), 'refresh');
+				}
+				else
+				{
+					$jenis = ($jenis == 'kerja_praktek')?'kerja-praktek':'tugas-akhir';
+					$this->judul_mahasiswa->tambah(array(
+						'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+						'jenis' => $jenis,
+						'judul' => $this->input->post('judul'),
+						'dokumen' => $this->upload->data()['file_name'],
+						'keterangan' => $this->input->post('keterangan'),
+						'tanggal_permintaan' => nice_date(unix_to_human(now('Asia/Jakarta')), 'Y-m-d H:i:s'),
+						'tanggapan_doping_1' => 'proses',
+						'tanggapan_doping_2' => 'proses',
+						'status' => 'proses'
+					));
+
+					$jenis = ($jenis == 'kerja-praktek')?'judul_kerja_praktek':'judul_skripsi';
+					redirect(base_url($this->router->fetch_class().'/'.$jenis), 'refresh');
+				}
+			}
+			else
+			{
+				$data['jenis'] = $jenis;
+				$data['doping_mahasiswa'] = $this->dosen_pembimbing->dosen_mahasiswa($this->session->userdata(strtolower($this->router->fetch_class())));
+				$this->template->load('tambah_judul', $data);
+			}
+		}
+		else
+		{
+			$data['jenis'] = $jenis;
+			$data['doping_mahasiswa'] = $this->dosen_pembimbing->dosen_mahasiswa($this->session->userdata(strtolower($this->router->fetch_class())));
+			$this->template->load('tambah_judul', $data);
 		}
 	}
 
