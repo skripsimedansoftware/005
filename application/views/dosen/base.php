@@ -145,6 +145,30 @@ desired effect
 	</div>
 	<!-- /.content-wrapper -->
 
+	<div class="modal fade" id="modal-surat-pengantar-kp">
+		<div class="modal-dialog">
+			<form method="post" action="<?php echo base_url($this->router->fetch_class().'/upload_syarat_dokumen/'.$this->uri->segment(4).'/kerja_praktek') ?>" enctype="multipart/form-data">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Unggah Surat Pengantar Perusahaan</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Surat Pengantar Perusahaan</label>
+							<input type="file" class="form-control" name="surat_pengantar_perusahaan">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Unggah</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<!-- Main Footer -->
 	<footer class="main-footer">
 		<!-- To the right -->
