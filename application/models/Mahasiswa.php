@@ -42,6 +42,16 @@ class Mahasiswa extends MY_Model
 		return $this->db->get('mahasiswa');
 	}
 
+	public function where($identity) {
+		$this->db->group_start()
+			->where('npm', $identity)
+			->or_group_start()
+				->where('email', $identity)
+			->group_end()
+		->group_end();
+		return $this->db->get('mahasiswa');
+	}
+
 	public function total_data() {
 		return $this->db->count_all('mahasiswa');
 	}

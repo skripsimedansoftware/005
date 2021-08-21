@@ -39,7 +39,7 @@ class Mahasiswa extends CI_Controller {
 				}
 				else
 				{
-					redirect(base_url($this->router->fetch_class().'/'.$this->router->fetch_method()), 'refresh');
+					$this->load->view('mahasiswa/login');
 				}
 			}
 			else

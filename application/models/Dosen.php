@@ -42,6 +42,16 @@ class Dosen extends MY_Model
 		return $this->db->get('dosen');
 	}
 
+	public function where($identity) {
+		$this->db->group_start()
+			->where('nik', $identity)
+			->or_group_start()
+				->where('email', $identity)
+			->group_end()
+		->group_end();
+		return $this->db->get('dosen');
+	}
+
 	public function total_data() {
 		return $this->db->count_all('dosen');
 	}
