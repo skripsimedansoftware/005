@@ -409,6 +409,13 @@ class Admin extends CI_Controller {
 		$this->template->load('judul_skripsi', $data);
 	}
 
+	public function jadwal_seminar_hasil()
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->jadwal->detail(array('jadwal' => 'seminar-hasil'));
+		$this->template->load('jadwal_seminar_hasil', $data);
+	}
+
 	public function login()
 	{
 		if ($this->input->method() == 'post')
