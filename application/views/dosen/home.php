@@ -4,7 +4,7 @@
 
 <section class="content container-fluid">
 	<div class="row">
-		<div class="col-lg-6 col-xs-12">
+		<div class="col-lg-4 col-xs-6">
 			<div class="small-box bg-navy">
 				<div class="inner">
 					<h3><?php echo $this->mahasiswa->total_data(); ?></h3>
@@ -15,7 +15,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6 col-xs-12">
+		<div class="col-lg-4 col-xs-6">
 			<div class="small-box bg-yellow">
 				<div class="inner">
 					<h3><?php echo $this->dosen->total_data(); ?></h3>
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6 col-xs-12">
+		<div class="col-lg-4 col-xs-6">
 			<div class="small-box bg-teal">
 				<div class="inner">
 					<h3><?php echo $this->judul_mahasiswa->total_judul_kerja_praktek(); ?></h3>
@@ -37,7 +37,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6 col-xs-12">
+		<div class="col-lg-4 col-xs-6">
 			<div class="small-box bg-maroon">
 				<div class="inner">
 					<h3><?php echo $this->judul_mahasiswa->total_juduk_tugas_akhir(); ?></h3>
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6 col-xs-12">
+		<div class="col-lg-4 col-xs-6">
 			<div class="small-box bg-purple">
 				<div class="inner">
 					<h3><?php echo $this->jadwal->total_data(); ?></h3>
@@ -59,7 +59,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6 col-xs-12">
+		<div class="col-lg-4 col-xs-6">
 			<div class="small-box bg-green">
 				<div class="inner">
 					<h3><?php echo $this->jadwal->total_data(); ?></h3>

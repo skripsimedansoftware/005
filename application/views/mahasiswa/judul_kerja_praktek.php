@@ -96,8 +96,9 @@ $dokumen_persyaratan_all = array(
 		<!-- /.box-body -->
 		<div class="box-footer">
 			<?php 
-				$is_accepted_rule = ($dokumen_persyaratan_all['total'] === 5);
+				$is_accepted_rule = ($dokumen_persyaratan_all['total'] === 4);
 				$acc_all = ($dokumen_persyaratan_all['diterima'] == $dokumen_persyaratan_all['total'])?'hidden':'';
+				$dokumen_persyaratan_kerja_praktek = $this->dokumen_persyaratan->detail(array('mahasiswa' => $session->id, 'tujuan' => 'kerja-praktek'));
 			?>
 			<?php if  ($is_accepted_rule) : ?>
 				<?php if ($acc_all == 'hidden') : ?>
@@ -107,8 +108,24 @@ $dokumen_persyaratan_all = array(
 
 			<?php if ($dokumen_persyaratan_all['total'] < 3 OR $acc_all == '') :?>
 			<a href="#" class="pull-right btn btn-info <?php echo ($is_accepted_rule)?$acc_all:''  ?>" data-toggle="modal" data-target="#modal-syarat-kerja-praktek">Unggah Berkas Persyaratan</a>
-			<?php elseif ($dokumen_persyaratan_all['total'] == 4) : ?>
-			<a href="#" class="pull-right btn btn-info" data-toggle="modal" data-target="#modal-surat-balasan-perusahaan">Unggah Berkas Balasan Perusahaan</a>
+			<?php elseif ($this->dokumen_persyaratan->detail(array('mahasiswa' => $session->id, 'tujuan' => 'kerja-praktek'))->num_rows() === 3) : ?>
+			<?php
+			$acc_step1 = array();
+			foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen)
+			{
+				if ($dokumen['status'] == 'diterima')
+				{
+					array_push($acc_step1, $dokumen['berkas']);
+				}
+			}
+
+			if (count($acc_step1) === 3)
+			{
+				?>
+				<a href="#" class="pull-right btn btn-info" data-toggle="modal" data-target="#modal-surat-balasan-perusahaan">Unggah Berkas Balasan Perusahaan</a>
+				<?php
+			}
+			?>
 			<?php endif; ?>
 		</div>
 	<!-- /.box-footer-->
