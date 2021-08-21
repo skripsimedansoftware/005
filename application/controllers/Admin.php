@@ -395,6 +395,13 @@ class Admin extends CI_Controller {
 		redirect(base_url($this->router->fetch_class().'/mahasiswa'),'refresh');
 	}
 
+	public function set_status_berkas_persyaratan($id, $status = 'diterima')
+	{
+		$detail = $this->dokumen_persyaratan->detail(array('id' => $id));
+		$this->dokumen_persyaratan->sunting(array('id' => $id), array('status' => $status));
+		redirect(base_url($this->router->fetch_class().'/mahasiswa/detail/'.$detail->row()->mahasiswa), 'refresh');
+	}
+
 	public function judul_kerja_praktek($id = NULL, $status = 'diterima')
 	{
 		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
