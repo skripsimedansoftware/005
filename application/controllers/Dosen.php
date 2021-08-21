@@ -7,7 +7,7 @@ class Dosen extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => 'dosen']);
-		$this->load->model(['dosen', 'email_confirm']);
+		$this->load->model(['dosen', 'email_confirm', 'mahasiswa', 'dokumen_persyaratan', 'dosen_pembimbing', 'judul_mahasiswa', 'konsultasi', 'jadwal', 'lokasi_jadwal']);
 		if (empty($this->session->userdata('dosen')))
 		{
 			if (!in_array($this->router->fetch_method(), ['login', 'register', 'forgot_password', 'email_confirm', 'reset_password']))
@@ -85,6 +85,95 @@ class Dosen extends CI_Controller {
 				$this->template->load('konsultasi', $data);
 			}
 		}
+	}
+
+	public function tanggapi_judul($id, $status = NULL)
+	{
+		$judul = $this->judul_mahasiswa->detail(array('id' => $id))->row();
+		if (!empty($status))
+		{
+			if (!empty($judul))
+			{
+				if ($judul->jenis == 'kerja-praktek')
+				{
+					$this->judul_mahasiswa->sunting(array('id' => $id), array('status' => $status));
+				}
+				else
+				{
+					$dosen = $this->dosen_pembimbing->dosen_mahasiswa($judul->mahasiswa)->row();
+					if (!empty($dosen))
+					{
+						if ($dosen->dosen_ta1 == $this->session->userdata('pengguna')['id'])
+						{
+							$this->judul_mahasiswa->sunting(array('id' => $id), array('tanggapan_doping_1' => $status));
+						}
+						else
+						{
+							$this->judul_mahasiswa->sunting(array('id' => $id), array('tanggapan_doping_2' => $status));
+						}
+					}
+
+					$judul = $this->judul_mahasiswa->detail(array('id' => $id))->row();
+					if ($judul->tanggapan_doping_1 == $judul->tanggapan_doping_2)
+					{
+						$this->judul_mahasiswa->sunting(array('id' => $id), array('status' => $status));
+					}
+					else
+					{
+						if ($judul->status == 'diterima')
+						{
+							if ($judul->tanggapan_doping_1 !== 'diterima')
+							{
+								$this->judul_mahasiswa->sunting(array('id' => $id), array('status' => $judul->tanggapan_doping_1));
+							}
+							elseif ($judul->tanggapan_doping_2 !== 'diterima')
+							{
+								$this->judul_mahasiswa->sunting(array('id' => $id), array('status' => $judul->tanggapan_doping_2));
+							}
+						}
+						else
+						{
+							$this->judul_mahasiswa->sunting(array('id' => $id), array('status' => $status));
+						}
+					}
+				}
+			}
+
+			redirect(base_url($this->router->fetch_class().'/konsultasi'), 'refresh');
+		}
+		else
+		{
+			$data['data'] = $this->judul_mahasiswa->detail(array('id' => $id))->row();
+			$this->template->load('tanggapi_judul', $data);
+		}
+	}
+
+	public function jadwal()
+	{
+		$data['session'] = $this->dosen->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->jadwal->dosen($this->session->userdata(strtolower($this->router->fetch_class())))->result_array();
+		$this->template->load('jadwal', $data);
+	}
+
+	public function cetak_sk()
+	{
+		$data['session'] = $this->dosen->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->dosen_pembimbing->ambil_data(100);
+		$this->template->load('cetak_sk', $data);
+	}
+
+	public function profil_dosen($id = NULL)
+	{
+		$data['session'] = $this->dosen->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->dosen->detail(array('id' => $id))->row();
+		$this->template->load('profil_dosen', $data);
+	}
+
+	public function profil_mahasiswa($id = NULL)
+	{
+		$data['session'] = $this->dosen->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->mahasiswa->detail(array('id' => $id))->row();
+		$this->template->load('profil_mahasiswa', $data);
 	}
 
 	public function profile($id = NULL, $option = NULL)
