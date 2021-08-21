@@ -395,6 +395,20 @@ class Admin extends CI_Controller {
 		redirect(base_url($this->router->fetch_class().'/mahasiswa'),'refresh');
 	}
 
+	public function judul_kerja_praktek($id = NULL, $status = 'diterima')
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->judul_mahasiswa->ambil_data(100, 0, array('jenis' => 'kerja-praktek'));
+		$this->template->load('judul_kerja_praktek', $data);
+	}
+
+	public function judul_skripsi($id = NULL)
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->judul_mahasiswa->ambil_data(100, 0, array('jenis' => 'tugas-akhir'));
+		$this->template->load('judul_skripsi', $data);
+	}
+
 	public function login()
 	{
 		if ($this->input->method() == 'post')
