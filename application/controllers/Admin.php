@@ -423,6 +423,61 @@ class Admin extends CI_Controller {
 		$this->template->load('jadwal_sidang', $data);
 	}
 
+	public function lokasi() 
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->lokasi_jadwal->ambil_data($this->lokasi_jadwal->total_data());
+		$this->template->load('lokasi/index', $data);
+	}
+
+	public function tambah_lokasi()
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		if ($this->input->method() == 'post')
+		{
+			$this->lokasi_jadwal->tambah(array(
+				'kode' => $this->input->post('kode'),
+				'keterangan' => $this->input->post('lokasi')
+			));
+
+			$this->session->set_flashdata('message', 'Data lokasi telah ditambahkan');
+
+			redirect(base_url($this->router->fetch_class().'/lokasi'), 'refresh');
+		}
+		else
+		{
+			$this->template->load('lokasi/tambah', $data);
+		}
+	}
+
+	public function sunting_lokasi($id)
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		if ($this->input->method() == 'post')
+		{
+			$this->lokasi_jadwal->sunting(array('id' => $id), array(
+				'kode' => $this->input->post('kode'),
+				'keterangan' => $this->input->post('lokasi')
+			));
+
+			$this->session->set_flashdata('message', 'Data lokasi telah diperbaharui');
+
+			redirect(base_url($this->router->fetch_class().'/lokasi'), 'refresh');
+		}
+		else
+		{
+			$data['data'] = $this->lokasi_jadwal->detail(array('id' => $id));
+			$this->template->load('lokasi/sunting', $data);
+		}
+	}
+
+	public function hapus_lokasi($id)
+	{
+		$this->lokasi_jadwal->hapus(array('id' => $id));
+		$this->session->set_flashdata('message', 'Lokasi berhasil dihapus');
+		redirect(base_url($this->router->fetch_class().'/lokasi'),'refresh');
+	}
+
 	public function login()
 	{
 		if ($this->input->method() == 'post')
