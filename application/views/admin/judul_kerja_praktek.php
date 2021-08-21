@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>Halaman<small>Admin</small></h1>
+	<h1>Administrator<small>Daftar Judul</small></h1>
 </section>
 
 <!-- Main content -->
