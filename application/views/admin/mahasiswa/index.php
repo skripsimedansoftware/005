@@ -84,6 +84,27 @@
 						</td>
 						<?php endif; ?>
 						<td>
+							<?php
+							$dokumen_persyaratan_kerja_praktek = $this->dokumen_persyaratan->detail(array('mahasiswa' => $value['id'], 'tujuan' => 'kerja-praktek'));
+							if ($this->dokumen_persyaratan->detail(array('mahasiswa' => $value['id'], 'tujuan' => 'kerja-praktek'))->num_rows() === 3)
+							{
+								$acc_step1 = array();
+								foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen)
+								{
+									if ($dokumen['status'] == 'diterima')
+									{
+										array_push($acc_step1, $dokumen['berkas']);
+									}
+								}
+
+								if (count($acc_step1) === 3)
+								{
+									?>
+									<a href="<?php echo base_url($this->router->fetch_class().'/sunting_mahasiswa/'.$value['id']) ?>" class="btn btn-xs bg-maroon btn-primary"><i class="fa fa-print"></i></a>
+									<?php
+								}
+							}
+							?>
 							<a href="<?php echo base_url($this->router->fetch_class().'/sunting_mahasiswa/'.$value['id']) ?>" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i></a>
 							<a href="<?php echo base_url($this->router->fetch_class().'/mahasiswa/detail/'.$value['id']) ?>" class="btn btn-xs btn-info"><i class="fa fa-eye"></i></a>
 							<a href="<?php echo base_url($this->router->fetch_class().'/hapus_mahasiswa/'.$value['id']) ?>" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
@@ -241,26 +262,7 @@
 					</table>
 				</div>
 				<div class="box-footer">
-				<?php
-				if ($dokumen_persyaratan_kerja_praktek->num_rows() === 3)
-				{
-					$acc_step1 = array();
-					foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen)
-					{
-						if ($dokumen['status'] == 'diterima')
-						{
-							array_push($acc_step1, $dokumen['berkas']);
-						}
-					}
-
-					if (count($acc_step1) === 3)
-					{
-						?>
-						<a href="#" class="pull-right btn btn-info" data-toggle="modal" data-target="#modal-surat-pengantar-kp">Unggah Berkas Surat Pengantar</a>
-						<?php
-					}
-				}
-				?>
+				
 				</div>
 			</div>
 		</div>
