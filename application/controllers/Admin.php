@@ -7,7 +7,7 @@ class Admin extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => 'admin']);
-		$this->load->model(['admin', 'email_confirm']);
+		$this->load->model(['admin', 'email_confirm', 'dosen']);
 		if (empty($this->session->userdata('admin')))
 		{
 			if (!in_array($this->router->fetch_method(), ['login', 'register', 'forgot_password', 'email_confirm', 'reset_password']))
@@ -21,6 +21,107 @@ class Admin extends CI_Controller {
 	{
 		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
 		$this->template->load('home', $data);
+	}
+
+	public function dosen()
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		if ($this->uri->segment(3) == 'detail') 
+		{
+			$detail = $this->dosen->detail(array('id' => $this->uri->segment(4)));
+			if ($detail->num_rows() === 1)
+			{
+				$data['data'] = $this->dosen->detail(array('id' => $this->uri->segment(4)))->row();
+			}
+			else
+			{
+				show_404();
+			}
+		}
+		else
+		{
+			$data['data'] = $this->dosen->ambil_data($this->dosen->total_data());
+		}
+
+		$this->template->load('dosen/index', $data);
+	}
+
+	public function tambah_dosen()
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		if ($this->input->method() == 'post')
+		{
+			$this->form_validation->set_rules('nik', 'NIK', 'trim|required|is_unique[dosen.nik]');
+			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+			$this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'trim|required');
+			$this->form_validation->set_rules('nomor_hp', 'Nomor HP', 'trim|required|min_length[12]|max_length[16]');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required');
+			$this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'trim|required|in_list[laki-laki,perempuan]');
+
+			if ($this->form_validation->run() == TRUE) 
+			{
+				$this->dosen->tambah(array(
+					'nik' => $this->input->post('nik'),
+					'email' => $this->input->post('email'),
+					'password' => sha1($this->input->post('password')),
+					'nama_lengkap' => $this->input->post('nama_lengkap'),
+					'nomor_hp' => $this->input->post('nomor_hp'),
+					'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+					'alamat' => $this->input->post('alamat')
+				));
+
+				$this->session->set_flashdata('message', 'Data dosen berhasil ditambahkan');
+
+				redirect(base_url($this->router->fetch_class().'/dosen'), 'refresh');
+			}
+			else
+			{
+				$this->template->load('dosen/tambah', $data);
+			}
+		}
+		else
+		{
+			$this->template->load('dosen/tambah', $data);
+		}
+	}
+
+	public function sunting_dosen($id = NULL)
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		if ($this->input->method() == 'post')
+		{
+			$data = array(
+				'nik' => $this->input->post('nik'),
+				'email' => $this->input->post('email'),
+				'nama_lengkap' => $this->input->post('nama_lengkap'),
+				'nomor_hp' => $this->input->post('nomor_hp'),
+				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+				'alamat' => $this->input->post('alamat')
+			);
+
+			if (!empty($this->input->post('password'))) 
+			{
+				$data['password'] = sha1($this->input->post('password'));
+			}
+
+			$this->dosen->sunting(array('id' => $id), $data);
+
+			$this->session->set_flashdata('message', 'Data dosen berhasil diperbaharui');
+
+			redirect(base_url($this->router->fetch_class().'/dosen'), 'refresh');
+		}
+		else
+		{
+			$data['data'] = $this->dosen->detail(array('id' => $id));
+			$this->template->load('dosen/sunting', $data);
+		}
+	}
+
+	public function hapus_dosen($id = NUll)
+	{
+		$this->dosen->hapus(array('id' => $id));
+		$this->session->set_flashdata('message', 'Dosen berhasil dihapus');
+		redirect(base_url($this->router->fetch_class().'/dosen'),'refresh');
 	}
 
 	public function login()

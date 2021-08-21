@@ -1,0 +1,64 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>Halaman<small>Dosen</small></h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="box box-info">
+		<div class="box-header with-border">
+			<h3 class="box-title">Sunting Dosen</h3>
+		</div>
+		<div class="box-body">
+			<form method="POST" action="<?php echo base_url($this->router->fetch_class().'/sunting_dosen/'.$this->uri->segment(3)) ?>">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label>NIK</label>
+						<input class="form-control" type="text" name="nik" placeholder="NIK" value="<?php echo set_value('nik', $data->row()->nik) ?>">
+						<?php echo form_error('nik', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<label>Email</label>
+						<input class="form-control" type="text" name="email" placeholder="Email" value="<?php echo set_value('email', $data->row()->email) ?>">
+						<?php echo form_error('email', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<label>Nama Lengkap</label>
+						<input class="form-control" type="text" name="nama_lengkap" placeholder="Nama Lengkap" value="<?php echo set_value('nama_lengkap', $data->row()->nama_lengkap) ?>">
+						<?php echo form_error('nama_lengkap', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<label>Nomor HP</label>
+						<input class="form-control" type="text" name="nomor_hp" placeholder="Nomor HP" value="<?php echo set_value('nomor_hp', $data->row()->nomor_hp) ?>">
+						<?php echo form_error('nomor_hp', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<label>Jenis Kelamin</label>
+						<select class="form-control" name="jenis_kelamin">
+							<option value="laki-laki" <?php echo (!empty($data->row()->jenis_kelamin))?($data->row()->jenis_kelamin == 'laki-laki')?'selected':'':'' ?>>Laki-laki</option>
+							<option value="perempuan" <?php echo (!empty($data->row()->jenis_kelamin))?($data->row()->jenis_kelamin == 'perempuan')?'selected':'':'' ?>>Perempuan</option>
+						</select>
+						<?php echo form_error('jenis_kelamin', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<input class="form-control" type="text" name="password" placeholder="Password" value="<?php echo set_value('password') ?>">
+						<?php echo form_error('password', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" placeholder="Alamat" name="alamat"><?php echo set_value('alamat', $data->row()->alamat) ?></textarea>
+						<?php echo form_error('alamat', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-block btn-success">Simpan</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- /.box-body -->
+		<div class="box-footer">
+			<a href="<?php echo base_url($this->router->fetch_class().'/dosen') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
+		</div>
+	<!-- /.box-footer-->
+	</div>
+</section>
