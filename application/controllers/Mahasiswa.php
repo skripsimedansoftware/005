@@ -233,6 +233,12 @@ class Mahasiswa extends CI_Controller {
 		}
 	}
 
+	public function hapus_judul($id)
+	{
+		$this->judul_mahasiswa->hapus(array('id' => $id));
+		redirect(base_url($this->router->fetch_class()),'refresh');
+	}
+
 	public function logout()
 	{
 		session_destroy();
