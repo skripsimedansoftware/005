@@ -56,11 +56,9 @@
 				</div>
 			</div>
 		</form>
-
-		<!-- <a href="#">I forgot my password</a><br> -->
 		<br>
-		<a href="<?php echo base_url('admin/register') ?>" class="text-center">Mendaftar</a>
-		<a href="<?php echo base_url('admin/forgot_password') ?>" class="text-center pull-right">Lupa Password</a>
+		<a href="<?php echo base_url() ?>" class="text-center">Beranda</a>
+		<a href="<?php echo base_url('dosen/forgot_password') ?>" class="text-center pull-right">Lupa Password</a>
 
 	</div>
 </div>

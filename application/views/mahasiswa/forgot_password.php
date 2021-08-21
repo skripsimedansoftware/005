@@ -66,8 +66,8 @@
 
 		<!-- <a href="#">I forgot my password</a><br> -->
 		<br>
-		<a href="<?php echo base_url('admin/register') ?>" class="text-center">Mendaftar</a>
-		<a href="<?php echo base_url('admin/login') ?>" class="text-center pull-right">Masuk</a>
+		<a href="<?php echo base_url('mahasiswa/register') ?>" class="text-center">Mendaftar</a>
+		<a href="<?php echo base_url('mahasiswa/login') ?>" class="text-center pull-right">Masuk</a>
 
 	</div>
 </div>

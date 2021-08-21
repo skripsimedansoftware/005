@@ -65,9 +65,9 @@
 				<!-- /.col -->
 			</div>
 		</form>
-
 		<br>
-		<a href="<?php echo base_url('admin/login') ?>" class="text-center">Saya sudah terdaftar</a>
+		<a href="<?php echo base_url() ?>" class="text-center">Beranda</a>
+		<a href="<?php echo base_url('mahasiswa/login') ?>" class="text-center pull-right">Saya sudah terdaftar</a>
 	</div>
 	<!-- /.form-box -->
 </div>

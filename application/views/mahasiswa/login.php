@@ -55,12 +55,15 @@
 					<button type="submit" class="btn btn-primary btn-block btn-flat">Masuk</button>
 				</div>
 			</div>
+			<div class="row" style="margin-top: 2%;">
+				<div class="col-xs-12">
+					<a href="<?php echo base_url('mahasiswa/register') ?>" class="btn btn-default btn-block btn-flat">Mendaftar</a>
+				</div>
+			</div>
 		</form>
-
-		<!-- <a href="#">I forgot my password</a><br> -->
 		<br>
-		<a href="<?php echo base_url('admin/register') ?>" class="text-center">Mendaftar</a>
-		<a href="<?php echo base_url('admin/forgot_password') ?>" class="text-center pull-right">Lupa Password</a>
+		<a href="<?php echo base_url() ?>" class="text-center">Beranda</a>
+		<a href="<?php echo base_url('mahasiswa/forgot_password') ?>" class="text-center pull-right">Lupa Password</a>
 
 	</div>
 </div>
