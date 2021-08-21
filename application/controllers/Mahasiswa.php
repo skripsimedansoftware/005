@@ -68,16 +68,15 @@ class Mahasiswa extends CI_Controller {
 				if ($this->input->method() == 'post')
 				{
 					$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-					$this->form_validation->set_rules('username', 'Username', 'trim');
-					$this->form_validation->set_rules('password', 'Password', 'trim');
-					$this->form_validation->set_rules('full_name', 'Full Name', 'trim');
 
 					if ($this->form_validation->run() == TRUE)
 					{
 						$update_data = array(
+							'nama_lengkap' => $this->input->post('nama_lengkap'),
 							'email' => $this->input->post('email'),
-							'username' => $this->input->post('username'),
-							'full_name' => $this->input->post('full_name')
+							'nomor_hp' => $this->input->post('nomor_hp'),
+							'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+							'alamat' => $this->input->post('alamat')
 						);
 
 						if (!empty($this->input->post('password')))
@@ -105,7 +104,7 @@ class Mahasiswa extends CI_Controller {
 								$config['width']			= 160;
 								$config['height']			= 160;
 								// watermark
-								$config['wm_text'] 			= strtolower($this->router->fetch_class());
+								$config['wm_text'] 			= ($this->input->post('jenis_kelamin') == 'perempuan')?'mahasiswi':'mahasiswa';
 								$config['wm_type'] 			= 'text';
 								$config['wm_font_color'] 	= 'ffffff';
 								$config['wm_font_size'] 	= 12;
@@ -118,7 +117,7 @@ class Mahasiswa extends CI_Controller {
 									$this->image_lib->watermark();
 								}
 
-								$update_data['photo'] = $this->upload->data()['file_name'];
+								$update_data['foto'] = $this->upload->data()['file_name'];
 							}
 						}
 
