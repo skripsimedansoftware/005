@@ -141,6 +141,13 @@ class Mahasiswa extends CI_Controller {
 		}
 	}
 
+	public function dosen($id = NULL)
+	{
+		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->dosen->detail(array('id' => $id))->row();
+		$this->template->load('dosen', $data);
+	}
+
 	public function judul_kerja_praktek()
 	{
 		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
@@ -159,6 +166,7 @@ class Mahasiswa extends CI_Controller {
 
 	public function tambah_judul($jenis)
 	{
+		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
 		$this->load->helper('inflector');
 		if ($this->input->method() == 'post')
 		{
@@ -210,6 +218,7 @@ class Mahasiswa extends CI_Controller {
 
 	public function konsultasi_judul($id_judul)
 	{
+		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
 		if ($this->input->method() == 'post')
 		{
 			$config['upload_path'] = './uploads/';
@@ -237,6 +246,13 @@ class Mahasiswa extends CI_Controller {
 	{
 		$this->judul_mahasiswa->hapus(array('id' => $id));
 		redirect(base_url($this->router->fetch_class()),'refresh');
+	}
+
+	public function cetak_sk()
+	{
+		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->dosen_pembimbing->ambil_data(100);
+		$this->template->load('cetak_sk', $data);
 	}
 
 	public function logout()
