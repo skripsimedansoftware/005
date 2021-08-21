@@ -4,88 +4,65 @@
 
 <section class="content container-fluid">
 	<div class="row">
-		<div class="col-lg-6 col-xs-12">
-			<div class="small-box bg-navy">
-				<div class="inner">
-					<h3>0</h3>
-					<p>Mahasiswa</p>
+	<?php 
+		if (!empty($jadwal)):
+			foreach ($jadwal as $jadwal_mahasiswa) :
+			?>
+			<div class="col-lg-4 col-xs-12">
+				<div class="box box-primary">
+					<div class="box-body box-profile">
+						<h3 class="profile-username text-center">Jadwal <?php echo ($jadwal_mahasiswa['jadwal'] == 'seminar-hasil')?'Seminar Hasil':'Sidang'; ?></h3>
+						<p class="text-muted text-center"><?php //echo $data->nama_lengkap ?></p>
+						<ul class="list-group list-group-unbordered">
+							<li class="list-group-item">
+								<b>Waktu</b> <a class="pull-right"><?php echo nice_date($jadwal_mahasiswa['waktu'], 'd-m-Y H:i A') ?></a>
+							</li>
+							<li class="list-group-item">
+								<b>Lokasi</b> <a class="pull-right"><?php echo $this->lokasi_jadwal->detail(array('id' => $jadwal_mahasiswa['lokasi']))->row()->keterangan ?></a>
+							</li>
+							<?php
+							$penguji1 = $this->dosen->detail(array('id' => $jadwal_mahasiswa['penguji1']));
+							if ($penguji1->num_rows() > 0)
+							{
+								?>
+								<li class="list-group-item">
+									<b>Penguji 1</b> <a class="pull-right"><?php echo $penguji1->row()->nama_lengkap?></a>
+								</li>
+								<?php
+							}
+							?>
+							<?php
+							$penguji2 = $this->dosen->detail(array('id' => $jadwal_mahasiswa['penguji2']));
+							if ($penguji2->num_rows() > 0)
+							{
+								?>
+								<li class="list-group-item">
+									<b>Penguji 2</b> <a class="pull-right"><?php echo $penguji2->row()->nama_lengkap?></a>
+								</li>
+								<?php
+							}
+							?>
+							<?php
+							$penguji3 = $this->dosen->detail(array('id' => $jadwal_mahasiswa['penguji3']));
+							if ($penguji3->num_rows() > 0)
+							{
+								?>
+								<li class="list-group-item">
+									<b>Penguji 3</b> <a class="pull-right"><?php echo $penguji3->row()->nama_lengkap?></a>
+								</li>
+								<?php
+							}
+							?>
+							<li class="list-group-item">
+								<b>Status</b> <a class="pull-right"><?php echo ($jadwal_mahasiswa['status'] == 'selesai')?'SELESAI':'DI JADWALKAN' ?></a>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div class="icon">
-					<i class="fa fa-users"></i>
-				</div>
-				<a href="<?php echo base_url($this->router->fetch_class().'/mahasiswa') ?>" class="small-box-footer">Info Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
 			</div>
-		</div>
-		<div class="col-lg-6 col-xs-12">
-			<div class="small-box bg-yellow">
-				<div class="inner">
-					<h3>0</h3>
-					<p>Dosen</p>
-				</div>
-				<div class="icon">
-					<i class="fa fa-users"></i>
-				</div>
-				<a href="<?php echo base_url($this->router->fetch_class().'/dosen') ?>" class="small-box-footer">Info Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-			</div>
-		</div>
-		<div class="col-lg-6 col-xs-12">
-			<div class="small-box bg-teal">
-				<div class="inner">
-					<h3>0</h3>
-					<p>Judul Kerja Praktek</p>
-				</div>
-				<div class="icon">
-					<i class="fa fa-book"></i>
-				</div>
-				<a href="<?php echo base_url($this->router->fetch_class().'/judul_kerja_praktek') ?>" class="small-box-footer">Info Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-			</div>
-		</div>
-		<div class="col-lg-6 col-xs-12">
-			<div class="small-box bg-maroon">
-				<div class="inner">
-					<h3>0</h3>
-					<p>Judul Skripsi</p>
-				</div>
-				<div class="icon">
-					<i class="fa fa-book"></i>
-				</div>
-				<a href="<?php echo base_url($this->router->fetch_class().'/judul_skripsi') ?>" class="small-box-footer">Info Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-			</div>
-		</div>
-		<div class="col-lg-6 col-xs-12">
-			<div class="small-box bg-purple">
-				<div class="inner">
-					<h3>0</h3>
-					<p>Jadwal Seminar Hasil</p>
-				</div>
-				<div class="icon">
-					<i class="fa fa-clock-o"></i>
-				</div>
-				<a href="<?php echo base_url($this->router->fetch_class().'/jadwal_seminar_hasil') ?>" class="small-box-footer">Info Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-			</div>
-		</div>
-		<div class="col-lg-6 col-xs-12">
-			<div class="small-box bg-green">
-				<div class="inner">
-					<h3>0</h3>
-					<p>Jadwal Sidang</p>
-				</div>
-				<div class="icon">
-					<i class="fa fa-clock-o"></i>
-				</div>
-				<a href="<?php echo base_url($this->router->fetch_class().'/jadwal_sidang') ?>" class="small-box-footer">Info Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-			</div>
-		</div>
-	</div>
-	<div class="box">
-		<div class="box-header with-border">
-			<h3 class="box-title">Title</h3>
-		</div>
-		<div class="box-body">
-			Start creating your amazing application!
-		</div>
-		<div class="box-footer">
-			Footer
-		</div>
+			<?php
+			endforeach;
+		?>
+		<?php endif; ?>
 	</div>
 </section>

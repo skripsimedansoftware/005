@@ -20,6 +20,7 @@ class Mahasiswa extends CI_Controller {
 	public function index()
 	{
 		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['jadwal'] = $this->jadwal->mahasiswa($this->session->userdata(strtolower($this->router->fetch_class())))->result_array();
 		$this->template->load('home', $data);
 	}
 
