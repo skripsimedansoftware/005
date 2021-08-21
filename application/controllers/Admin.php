@@ -395,6 +395,34 @@ class Admin extends CI_Controller {
 		redirect(base_url($this->router->fetch_class().'/mahasiswa'),'refresh');
 	}
 
+	public function upload_syarat_dokumen($mahasiswa_id = NULL, $jenis = NULL)
+	{
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = '*';
+		$this->load->library('upload', $config);
+		$upload_errors = array();
+		$jenis = ($jenis == 'kerja_praktek')?'kerja-praktek':'tugas-akhir';
+		$config['file_name'] = url_title('surat-pengantar-perusahaan');
+		$this->upload->initialize($config);
+		if (!$this->upload->do_upload('surat_pengantar_perusahaan'))
+		{
+			$upload_errors['surat_pengantar_perusahaan'] = $this->upload->display_errors();
+			$this->session->set_flashdata('upload_errors', $upload_errors);
+		}
+		else
+		{
+			$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+				'tujuan' => $jenis,
+				'mahasiswa' => $mahasiswa_id,
+				'jenis_berkas' => 'Surat Pengantar Perusahaan',
+				'berkas' => $this->upload->data()['file_name'],
+				'status' => 'diterima'
+			));
+		}
+
+		redirect(base_url($this->router->fetch_class().'/mahasiswa/detail/'.$mahasiswa_id) ,'refresh');
+	}
+
 	public function set_status_berkas_persyaratan($id, $status = 'diterima')
 	{
 		$detail = $this->dokumen_persyaratan->detail(array('id' => $id));

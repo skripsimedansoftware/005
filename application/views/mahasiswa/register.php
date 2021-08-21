@@ -41,16 +41,29 @@
 	<div class="register-box-body">
 		<p class="login-box-msg">Pendaftaran</p>
 
-		<form action="<?php echo base_url('user/register') ?>" method="post">
+		<form action="<?php echo base_url($this->router->fetch_class().'/register') ?>" method="post">
 			<div class="form-group has-feedback">
-				<input type="text" class="form-control" placeholder="Nama Lengkap" name="full_name" value="<?php echo set_value('full_name') ?>">
-				<span class="glyphicon glyphicon-user form-control-feedback"></span>
-				<?php echo form_error('full_name', '<span class="help-block error">', '</span>'); ?>
+				<input type="text" class="form-control" placeholder="NPM" name="npm" value="<?php echo set_value('npm') ?>">
+				<span class="fa fa-key form-control-feedback"></span>
+				<?php echo form_error('npm', '<span class="help-block error">', '</span>'); ?>
 			</div>
 			<div class="form-group has-feedback">
 				<input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo set_value('email') ?>">
 				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				<?php echo form_error('email', '<span class="help-block error">', '</span>'); ?>
+			</div>
+			<div class="form-group has-feedback">
+				<input type="text" class="form-control" placeholder="Nama Lengkap" name="nama_lengkap" value="<?php echo set_value('nama_lengkap') ?>">
+				<span class="glyphicon glyphicon-user form-control-feedback"></span>
+				<?php echo form_error('nama_lengkap', '<span class="help-block error">', '</span>'); ?>
+			</div>
+			<div class="form-group has-feedback">
+				<select class="form-control" name="jenis_kelamin">
+					<option value="">- PILIH JENIS KELAMIN -</option>
+					<option value="laki-laki" <?php echo (!empty($this->input->post('jenis_kelamin')))?($this->input->post('jenis_kelamin') == 'laki-laki')?'selected':'':'' ?>>Laki-laki</option>
+					<option value="perempuan" <?php echo (!empty($this->input->post('jenis_kelamin')))?($this->input->post('jenis_kelamin') == 'perempuan')?'selected':'':'' ?>>Perempuan</option>
+				</select>
+				<?php echo form_error('jenis_kelamin', '<span class="help-block error">', '</span>'); ?>
 			</div>
 			<div class="form-group has-feedback">
 				<input type="password" class="form-control" placeholder="Kata Sandi" name="password">

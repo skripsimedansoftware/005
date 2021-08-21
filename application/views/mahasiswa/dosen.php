@@ -7,7 +7,7 @@
 
 					$foto_default = ($data->jenis_kelamin == 'perempuan')?base_url('assets/adminlte/dist/img/user5-128x128.jpg'):base_url('assets/adminlte/dist/img/user1-128x128.jpg')
 					?>
-					<img class="profile-user-img img-responsive img-circle" src="<?php echo (!empty($data->foto))?$data->foto:$foto_default ?>" alt="User profile picture">
+					<img class="profile-user-img img-responsive img-circle" src="<?php echo (!empty($data->foto))?base_url('uploads/'.$data->foto):$foto_default ?>" alt="User profile picture">
 					<h3 class="profile-username text-center"><?php echo $data->nama_lengkap ?></h3>
 					<p class="text-muted text-center">Dosen</p>
 					<ul class="list-group list-group-unbordered">

@@ -439,7 +439,39 @@ class Mahasiswa extends CI_Controller {
 
 	public function register()
 	{
-		$this->load->view('mahasiswa/register');
+		if ($this->input->method() == 'post')
+		{
+			$this->form_validation->set_rules('npm', 'NPM', 'trim|required|is_unique[mahasiswa.npm]');
+			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+			$this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'trim|required');
+			$this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'trim|required|in_list[laki-laki,perempuan]');
+			$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|required');
+
+			if ($this->form_validation->run() == TRUE) 
+			{
+				$this->mahasiswa->tambah(array(
+					'npm' => $this->input->post('npm'),
+					'email' => $this->input->post('email'),
+					'password' => sha1($this->input->post('password')),
+					'nama_lengkap' => $this->input->post('nama_lengkap'),
+					'nomor_hp' => $this->input->post('nomor_hp'),
+					'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+					'alamat' => $this->input->post('alamat')
+				));
+
+				$this->session->set_flashdata('message', 'Pendaftaran berhasil');
+
+				redirect(base_url($this->router->fetch_class().'/login'), 'refresh');
+			}
+			else
+			{
+				$this->load->view('mahasiswa/register');
+			}
+		}
+		else
+		{
+			$this->load->view('mahasiswa/register');
+		}
 	}
 
 	public function forgot_password()
