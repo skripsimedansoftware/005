@@ -7,7 +7,7 @@
 		<div class="col-lg-4 col-xs-12">
 			<div class="box box-primary">
 				<div class="box-body box-profile">
-					<img class="profile-user-img img-responsive img-circle" src="<?php echo (!empty($profile->photo))?base_url('uploads/'.$profile->photo):base_url('assets/adminlte/dist/img/user2-160x160.jpg') ?>" alt="User profile picture" style="height: 160px; width: 160px;">
+					<img class="profile-user-img img-responsive img-circle" src="<?php echo (!empty($profile->foto))?base_url('uploads/'.$profile->foto):base_url('assets/adminlte/dist/img/user2-160x160.jpg') ?>" alt="User profile picture" style="height: 160px; width: 160px;">
 					<h3 class="profile-username text-center"><?php echo $profile->nama_lengkap ?></h3>
 					<p class="text-muted text-center"><?php echo $profile->npm ?></p>
 					<ul class="list-group list-group-unbordered">
