@@ -122,7 +122,7 @@ class Mahasiswa extends CI_Controller {
 							}
 						}
 
-						$this->mahasiswa->suting(array('id' => $id), $update_data);
+						$this->mahasiswa->sunting(array('id' => $id), $update_data);
 						redirect(base_url($this->router->fetch_class().'/profile/'.$id) ,'refresh');
 					}
 					else
