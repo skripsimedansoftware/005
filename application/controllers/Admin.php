@@ -478,6 +478,13 @@ class Admin extends CI_Controller {
 		redirect(base_url($this->router->fetch_class().'/lokasi'),'refresh');
 	}
 
+	public function cetak_sk()
+	{
+		$data['session'] = $this->admin->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$data['data'] = $this->dosen_pembimbing->ambil_data(100);
+		$this->template->load('cetak_sk', $data);
+	}
+
 	public function login()
 	{
 		if ($this->input->method() == 'post')
