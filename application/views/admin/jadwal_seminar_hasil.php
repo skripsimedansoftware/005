@@ -27,7 +27,7 @@
 						<td><?php echo nice_date($jadwal['waktu'], 'd-m-Y H:i a') ?></td>
 						<td>
 							<?php
-							$lokasi = $this->lokasi_jadwal_model->detail(array('id' => $jadwal['lokasi']));
+							$lokasi = $this->lokasi_jadwal->detail(array('id' => $jadwal['lokasi']));
 							if ($lokasi->num_rows() > 0)
 							{
 								?><?php echo $lokasi->row()->keterangan ?></a><?php
@@ -40,7 +40,7 @@
 						</td>
 						<td>
 							<?php 
-								$mahasiswa = $this->mahasiswa_model->detail(array('id' => $jadwal['mahasiswa']));
+								$mahasiswa = $this->mahasiswa->detail(array('id' => $jadwal['mahasiswa']));
 								if ($mahasiswa->num_rows() > 0)
 								{
 									?><a href="<?php echo base_url($this->router->fetch_class().'/mahasiswa/detail/'.$mahasiswa->row()->id) ?>"><?php echo $mahasiswa->row()->npm.' - '.$mahasiswa->row()->nama_lengkap ?></a><?php
@@ -53,7 +53,7 @@
 						</td>
 						<td>
 							<?php 
-							$dosen = $this->dosen_model->detail(array('id' => $jadwal['penguji1']));
+							$dosen = $this->dosen->detail(array('id' => $jadwal['penguji1']));
 							if ($dosen->num_rows() > 0)
 							{
 								?><a href="<?php echo base_url($this->router->fetch_class().'/dosen/detail/'.$dosen->row()->id) ?>"><?php echo $dosen->row()->nik.' - '.$dosen->row()->nama_lengkap ?></a><?php
@@ -66,7 +66,7 @@
 						</td>
 						<td>
 							<?php 
-							$dosen = $this->dosen_model->detail(array('id' => $jadwal['penguji2']));
+							$dosen = $this->dosen->detail(array('id' => $jadwal['penguji2']));
 							if ($dosen->num_rows() > 0)
 							{
 								?><a href="<?php echo base_url($this->router->fetch_class().'/dosen/detail/'.$dosen->row()->id) ?>"><?php echo $dosen->row()->nik.' - '.$dosen->row()->nama_lengkap ?></a><?php
