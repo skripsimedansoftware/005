@@ -148,6 +148,182 @@ class Mahasiswa extends CI_Controller {
 		$this->template->load('dosen', $data);
 	}
 
+	public function upload_syarat_dokumen($jenis = NULL)
+	{
+		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = '*';
+		$this->load->library('upload');
+		$upload_errors = array();
+		if ($jenis == 'kerja_praktek')
+		{
+			$jenis = ($jenis == 'kerja_praktek')?'kerja-praktek':'tugas-akhir';
+
+			// KRS
+			$config['file_name'] = url_title('syarat-kerja-praktek-krs-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('krs'))
+			{
+				$upload_errors['krs'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'KRS',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			// Permohonan KP
+			$config['file_name'] = url_title('syarat-kerja-praktek-permohonan-kp-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('permohonan_kp'))
+			{
+				$upload_errors['permohonan_kp'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'Permohonan KP',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			// Balasan Perusahaan
+			$config['file_name'] = url_title('syarat-kerja-praktek-balasan-perusahaan-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('balasan_perusahaan'))
+			{
+				$upload_errors['balasan_perusahaan'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'Balasan Perusahaan',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			// Bukti SPP
+			$config['file_name'] = url_title('syarat-kerja-praktek-bukti-SPP-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('bukti_spp'))
+			{
+				$upload_errors['bukti_spp'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'Bukti SPP',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			// Pembimbing KP
+			$config['file_name'] = url_title('syarat-kerja-praktek-pembimbing-KP-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('pembimbing_kp'))
+			{
+				$upload_errors['pembimbing_kp'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'Pembimbing KP',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			$jenis = ($jenis == 'kerja-praktek')?'judul_kerja_praktek':'judul_skripsi';
+			redirect(base_url($this->router->fetch_class().'/'.$jenis), 'refresh');
+		}
+		else
+		{
+			$jenis = ($jenis == 'kerja_praktek')?'kerja-praktek':'tugas-akhir';
+
+			// KRS
+			$config['file_name'] = url_title('syarat-tugas-akhir-krs-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('krs'))
+			{
+				$upload_errors['krs'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'KRS',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			// Bukti SPP
+			$config['file_name'] = url_title('syarat-tugas-akhir-bukti-SPP-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('bukti_spp'))
+			{
+				$upload_errors['bukti_spp'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'Bukti SPP',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			// Serah Terima KP
+			$config['file_name'] = url_title('syarat-tugas-akhir-serah-terima-KP-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('serah_terima_kp'))
+			{
+				$upload_errors['serah_terima_kp'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'Serah Terima KP',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			// Permohonan Skripsi
+			$config['file_name'] = url_title('syarat-tugas-akhir-permohonan-skripsi-'.$data['session']->nama_lengkap);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('permohonan_skripsi'))
+			{
+				$upload_errors['permohonan_skripsi'] = $this->upload->display_errors();
+			}
+			else
+			{
+				$this->dokumen_persyaratan->tambah_atau_perbaharui(array(
+					'tujuan' => $jenis,
+					'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+					'jenis_berkas' => 'Permohonan Skripsi',
+					'berkas' => $this->upload->data()['file_name']
+				));
+			}
+
+			$jenis = ($jenis == 'kerja-praktek')?'judul_kerja_praktek':'judul_skripsi';
+			redirect(base_url($this->router->fetch_class().'/'.$jenis), 'refresh');
+		}
+	}
+
 	public function judul_kerja_praktek()
 	{
 		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
@@ -175,7 +351,7 @@ class Mahasiswa extends CI_Controller {
 			{
 				$config['upload_path'] = './uploads/';
 				$config['allowed_types'] = '*';
-				$config['file_name'] = url_title(str_replace(' ', '-', $this->input->post('judul')).'--'.$this->session->userdata('pengguna')['nama']);
+				$config['file_name'] = url_title(str_replace(' ', '-', $this->input->post('judul')).'--'.$data['session']->nama_lengkap);
 				$this->load->library('upload', $config);
 				if (!$this->upload->do_upload('dokumen'))
 				{
@@ -230,7 +406,7 @@ class Mahasiswa extends CI_Controller {
 				$dokumen = $this->upload->data()['file_name'];
 			}
 
-			$this->konsultasi->tambah(array('judul_id' => $id_judul, 'pengirim' => 'mahasiswa', 'mahasiswa' => $this->session->userdata('pengguna')['id'], 'text' => $this->input->post('message'), 'dokumen' => $dokumen, 'time' => nice_date(unix_to_human(now('Asia/Jakarta')), 'Y-m-d H:i:s')));
+			$this->konsultasi->tambah(array('judul_id' => $id_judul, 'pengirim' => 'mahasiswa', 'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())), 'text' => $this->input->post('message'), 'dokumen' => $dokumen, 'time' => nice_date(unix_to_human(now('Asia/Jakarta')), 'Y-m-d H:i:s')));
 
 			redirect(base_url($this->router->fetch_class().'/konsultasi_judul/'.$id_judul), 'refresh');
 		}
