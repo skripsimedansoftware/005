@@ -208,6 +208,31 @@ class Mahasiswa extends CI_Controller {
 		}
 	}
 
+	public function konsultasi_judul($id_judul)
+	{
+		if ($this->input->method() == 'post')
+		{
+			$config['upload_path'] = './uploads/';
+			$config['allowed_types'] = '*';
+			$this->load->library('upload', $config);
+			$dokumen = NULL;
+			if ($this->upload->do_upload('attachment'))
+			{
+				$dokumen = $this->upload->data()['file_name'];
+			}
+
+			$this->konsultasi->tambah(array('judul_id' => $id_judul, 'pengirim' => 'mahasiswa', 'mahasiswa' => $this->session->userdata('pengguna')['id'], 'text' => $this->input->post('message'), 'dokumen' => $dokumen, 'time' => nice_date(unix_to_human(now('Asia/Jakarta')), 'Y-m-d H:i:s')));
+
+			redirect(base_url($this->router->fetch_class().'/konsultasi_judul/'.$id_judul), 'refresh');
+		}
+		else
+		{
+			$data['judul_mahasiswa'] = $this->judul_mahasiswa->detail(array('id' => $id_judul))->row();
+			$data['konsultasi'] = $this->konsultasi->ambil_data(1000, $id_judul)->result_array();
+			$this->template->load('konsultasi_judul', $data);
+		}
+	}
+
 	public function logout()
 	{
 		session_destroy();
