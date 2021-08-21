@@ -103,7 +103,7 @@ class Dosen extends CI_Controller {
 					$dosen = $this->dosen_pembimbing->dosen_mahasiswa($judul->mahasiswa)->row();
 					if (!empty($dosen))
 					{
-						if ($dosen->dosen_ta1 == $this->session->userdata('pengguna')['id'])
+						if ($dosen->dosen_ta1 == $this->session->userdata(strtolower($this->router->fetch_class())))
 						{
 							$this->judul_mahasiswa->sunting(array('id' => $id), array('tanggapan_doping_1' => $status));
 						}

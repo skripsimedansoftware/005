@@ -71,8 +71,8 @@
 						}
 						else
 						{
-							$nomor_pembimbing = $this->dosen->nomor_pembimbing($judul['id'], $this->session->userdata('pengguna')['id'])->row();
-							if ($nomor_pembimbing->dosen_ta1 == $this->session->userdata('pengguna')['id'])
+							$nomor_pembimbing = $this->dosen->nomor_pembimbing($judul['id'], $this->session->userdata(strtolower($this->router->fetch_class())))->row();
+							if ($nomor_pembimbing->dosen_ta1 == $this->session->userdata(strtolower($this->router->fetch_class())))
 							{
 								echo '<td>PEMBIMBING 1</td>';
 							}
@@ -106,8 +106,8 @@
 						}
 						else
 						{
-							$nomor_pembimbing = $this->dosen->nomor_pembimbing($judul['id'], $this->session->userdata('pengguna')['id'])->row();
-							if ($nomor_pembimbing->dosen_ta1 == $this->session->userdata('pengguna')['id'])
+							$nomor_pembimbing = $this->dosen->nomor_pembimbing($judul['id'], $this->session->userdata(strtolower($this->router->fetch_class())))->row();
+							if ($nomor_pembimbing->dosen_ta1 == $this->session->userdata(strtolower($this->router->fetch_class())))
 							{
 								$nomor_pembimbing = 1;
 							}
