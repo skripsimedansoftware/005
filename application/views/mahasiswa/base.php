@@ -154,6 +154,98 @@ desired effect
 	</div>
 	<!-- /.content-wrapper -->
 
+	<div class="modal fade" id="modal-syarat-kerja-praktek">
+		<div class="modal-dialog">
+			<form method="post" action="<?php echo base_url($this->router->fetch_class().'/upload_syarat_dokumen/kerja_praktek') ?>" enctype="multipart/form-data">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Unggah Dokumen Persyaratan Kerja Praktek</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>KRS</label>
+							<input type="file" class="form-control" name="krs">
+						</div>
+						<div class="form-group">
+							<label>Surat Permohonan KP</label>
+							<input type="file" class="form-control" name="permohonan_kp">
+						</div>
+						<div class="form-group">
+							<label>Bukti SPP</label>
+							<input type="file" class="form-control" name="bukti_spp">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Unggah</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modal-surat-balasan-perusahaan">
+		<div class="modal-dialog">
+			<form method="post" action="<?php echo base_url($this->router->fetch_class().'/upload_syarat_dokumen/kerja_praktek') ?>" enctype="multipart/form-data">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Unggah Surat Balasan Dari Perusahaan</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Surat Balasan Dari Perusahaan</label>
+							<input type="file" class="form-control" name="balasan_perusahaan">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Unggah</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modal-syarat-tugas-akhir">
+		<div class="modal-dialog">
+			<form method="post" action="<?php echo base_url($this->router->fetch_class().'/upload_syarat_dokumen/tugas_akhir') ?>" enctype="multipart/form-data">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Unggah Dokumen Persyaratan Skripsi</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>KRS</label>
+							<input type="file" class="form-control" name="krs">
+						</div>
+						<div class="form-group">
+							<label>Bukti SPP</label>
+							<input type="file" class="form-control" name="bukti_spp">
+						</div>
+						<div class="form-group">
+							<label>Draft Serah Terima KP</label>
+							<input type="file" class="form-control" name="serah_terima_kp">
+						</div>
+						<div class="form-group">
+							<label>Surat Permohonan Ambil Skripsi</label>
+							<input type="file" class="form-control" name="permohonan_skripsi">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Unggah</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<!-- Main Footer -->
 	<footer class="main-footer">
 		<!-- To the right -->
