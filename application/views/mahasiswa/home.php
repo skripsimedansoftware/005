@@ -65,4 +65,29 @@
 		?>
 		<?php endif; ?>
 	</div>
+	<div class="row">
+		<div class="col-lg-12">
+		<?php
+		$dokumen_persyaratan_kerja_praktek = $this->dokumen_persyaratan->detail(array('mahasiswa' => $session->id, 'tujuan' => 'kerja-praktek'));
+		if ($this->dokumen_persyaratan->detail(array('mahasiswa' => $session->id, 'tujuan' => 'kerja-praktek'))->num_rows() === 3)
+		{
+			$acc_step1 = array();
+			foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen)
+			{
+				if ($dokumen['status'] == 'diterima')
+				{
+					array_push($acc_step1, $dokumen['berkas']);
+				}
+			}
+
+			if (count($acc_step1) === 3)
+			{
+				?>
+				<a href="#" class="btn btn-lg bg-maroon btn-primary" data-toggle="modal" data-target="#modal-surat-balasan-perusahaan"><i class="fa fa-upload"></i> Unggah Berkas Balasan Perusahaan</a>
+				<?php
+			}
+		}
+		?>
+		</div>
+	</div>
 </section>

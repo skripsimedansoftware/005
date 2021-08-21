@@ -15,6 +15,8 @@ class Admin extends CI_Controller {
 				redirect(base_url($this->router->fetch_class().'/login'), 'refresh');
 			}
 		}
+
+		$this->load->library('fpdf183/fpdf');
 	}
 
 	public function index()

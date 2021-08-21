@@ -62,7 +62,7 @@
 					$berkas_persyaratan_ta = $this->dokumen_persyaratan->detail(array('mahasiswa' => $data->row()->id, 'tujuan' => 'tugas-akhir', 'status' => 'diterima'));
 					?>
 
-					<?php if ($berkas_persyaratan_kp->num_rows() === 5): ?>
+					<?php if ($berkas_persyaratan_kp->num_rows() === 4): ?>
 					<hr>
 					<div class="form-group">
 						<label>Pembimbing Kerja Praktek</label>
@@ -74,11 +74,6 @@
 							<?php endforeach; ?>
 						</select>
 						<?php echo form_error('dosen_kp', '<span class="help-block error">', '</span>'); ?>
-					</div>
-					<div class="form-group">
-						<label>SK Kerja Praktek</label>
-						<input type="file" name="sk_kerja_praktek" class="form-control">
-						<?php echo form_error('sk_kerja_praktek', '<span class="help-block error">', '</span>'); ?>
 					</div>
 					<?php endif; ?>
 
