@@ -774,7 +774,7 @@ class Admin extends CI_Controller {
 			// LINE
 			$pdf->Rect(1, 40, 212, 1);
 
-			if ($dokumen == 'kerja-praktek')
+			if ($dokumen == 'permohonan-kerja-praktek')
 			{
 				$pdf->SetFillColor(255, 255, 255, 0);
 				$pdf->Cell(0, 20,'', 0);
@@ -861,6 +861,10 @@ class Admin extends CI_Controller {
 				$pdf->SetFont('arial', 'B');
 				$pdf->Cell(0, 5, 'Ahmad Zakir ST. M.Kom         ', 0, NULL, 'R');
 				$pdf->Ln();
+			}
+			if ($dokumen == 'kerja-praktek')
+			{
+
 			}
 			else
 			{

@@ -97,7 +97,7 @@
 									}
 								}
 
-								if (count($acc_step1) >= 3)
+								if (count($acc_step1) >= 4)
 								{
 									?>
 									<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$value['id'].'/kerja-praktek') ?>" class="btn btn-xs bg-maroon btn-primary"><i class="fa fa-print"></i> KP</a>
@@ -274,7 +274,24 @@
 					</table>
 				</div>
 				<div class="box-footer">
-				
+				<?php
+				$acc_step1 = array();
+				$dokumen_persyaratan_kerja_praktek = $this->dokumen_persyaratan->detail(array('mahasiswa' => $value['id'], 'tujuan' => 'kerja-praktek'));
+				foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen)
+				{
+					if ($dokumen['status'] == 'diterima')
+					{
+						array_push($acc_step1, $dokumen['berkas']);
+					}
+				}
+
+				if (count($acc_step1) >= 3)
+				{
+					?>
+					<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$value['id'].'/permohonan-kerja-praktek') ?>" class="btn bg-maroon btn-primary"><i class="fa fa-print"></i> KP</a>
+					<?php
+				}
+				?>
 				</div>
 			</div>
 		</div>
