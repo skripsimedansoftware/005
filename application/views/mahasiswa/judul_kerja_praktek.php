@@ -126,6 +126,15 @@ $dokumen_persyaratan_all = array(
 				<?php
 			}
 			?>
+
+			<?php
+			if (count($acc_step1) >= 3)
+			{
+				?>
+				<a href="#" class="btn bg-maroon" data-toggle="modal" data-target="#modal-isi-data-perusahaan">Isi Data Perusahaan</a>
+				<?php
+			}
+			?>
 			<?php endif; ?>
 		</div>
 	<!-- /.box-footer-->
