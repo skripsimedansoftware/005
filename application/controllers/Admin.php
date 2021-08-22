@@ -864,7 +864,13 @@ class Admin extends CI_Controller {
 			}
 			if ($dokumen == 'kerja-praktek')
 			{
-
+				$pdf->Cell(0, 12,'', 0);
+				$pdf->Ln();
+				$pdf->SetFont('arial', 'B');
+				foreach ($table_headers as $column)
+				{
+					$pdf->Cell($column['length'], 8, $column['label'], 1, NULL, $column['align']);
+				}
 			}
 			else
 			{
