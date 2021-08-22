@@ -808,6 +808,13 @@ class Admin extends CI_Controller {
 				$pdf->Ln();
 				$pdf->Cell(0, 5, 'untuk membuat surat pengantar Kerja Praktik.', 0);
 
+				$perusahaan = array();
+				$query = $this->perusahaan->detail(array('mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class()))));
+				if ($query->num_rows() >= 1)
+				{
+					$perusahaan = $query->row_array();
+				}
+
 				$pdf->Cell(0, 12,'', 0);
 				$pdf->Ln();
 
@@ -827,10 +834,10 @@ class Admin extends CI_Controller {
 				$pdf->Cell(0, 8,'', 0);
 				$pdf->Ln();
 				$pdf->Cell(40, 6, 'Nama Perusahaan', 0);
-				$pdf->Cell(0, 6, ': NOMOR SURAT', 0);
+				$pdf->Cell(0, 6, ': '.(!empty($perusahaan))?$perusahaan['nama']:'', 0);
 				$pdf->Ln();
 				$pdf->Cell(40, 6, 'Alamat', 0);
-				$pdf->Cell(0, 6, ': NOMOR SURAT', 0);
+				$pdf->Cell(0, 6, ': '.(!empty($perusahaan))?$perusahaan['alamat']:'', 0);
 				$pdf->Ln();
 
 				$pdf->Cell(0, 10,'', 0);
