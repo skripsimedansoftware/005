@@ -97,7 +97,7 @@
 									}
 								}
 
-								if (count($acc_step1) === 3)
+								if (count($acc_step1) >= 3)
 								{
 									?>
 									<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$value['id'].'/kerja-praktek') ?>" class="btn btn-xs bg-maroon btn-primary"><i class="fa fa-print"></i> KP</a>
