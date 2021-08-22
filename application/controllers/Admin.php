@@ -821,7 +821,6 @@ class Admin extends CI_Controller {
 				$table_headers = array(
 					array('label' => 'NPM', 'length' => 30, 'align' => 'C'),
 					array('label' => 'NAMA LENGKAP', 'length' => 80, 'align' => 'L'),
-					array('label' => 'NAMA PEMBIMBING', 'length' => 80, 'align' => 'L')
 				);
 				$pdf->SetFont('arial', 'B');
 				foreach ($table_headers as $column)
