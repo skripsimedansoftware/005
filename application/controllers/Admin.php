@@ -871,6 +871,21 @@ class Admin extends CI_Controller {
 				{
 					$pdf->Cell($column['length'], 8, $column['label'], 1, NULL, $column['align']);
 				}
+
+				$file_name = FCPATH.'uploads/surat-pembimbing-kerja-praktek-'.$mahasiswa->row()->npm.'.pdf';
+
+				if (file_exists($file_name))
+				{
+					unlink($file_name);
+				}
+
+				$pdf->Output('F', $file_name);
+				$merger = new iio\libmergepdf\Merger;
+				$merger->addIterator([FCPATH.'assets/SKP-KP.pdf', $file_name]);
+				$mergedPDF = $merger->merge();
+
+				file_put_contents($file_name, $mergedPDF);
+				$this->output->set_content_type('application/pdf')->set_output($mergedPDF);
 			}
 			else
 			{
@@ -920,7 +935,7 @@ class Admin extends CI_Controller {
 				$pdf->SetFont('arial', '', 8);
 				$pdf->Cell(0, 5, '1. Arsip', 0, NULL, 'L');
 
-				$file_name = FCPATH.'uploads/surat-permohonan-skripsi-'.$mahasiswa->row()->npm.'.pdf';
+				$file_name = FCPATH.'uploads/surat-pembimbing-skripsi-'.$mahasiswa->row()->npm.'.pdf';
 
 				if (file_exists($file_name))
 				{
@@ -928,7 +943,7 @@ class Admin extends CI_Controller {
 				}
 
 				$pdf->Output('F', $file_name);
-				$merger = new Merger;
+				$merger = new iio\libmergepdf\Merger;
 				$merger->addIterator([FCPATH.'assets/SKP-TA.pdf', $file_name]);
 				$mergedPDF = $merger->merge();
 
