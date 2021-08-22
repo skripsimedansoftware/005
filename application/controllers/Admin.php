@@ -11,7 +11,7 @@ class Admin extends CI_Controller {
 		parent::__construct();
 		$this->load->library('template', ['module' => 'admin']);
 		$this->load->library('fpdf183/fpdf');
-		$this->load->model(['admin', 'email_confirm', 'dosen', 'mahasiswa', 'dokumen_persyaratan', 'dosen_pembimbing', 'judul_mahasiswa', 'konsultasi', 'jadwal', 'lokasi_jadwal']);
+		$this->load->model(['admin', 'email_confirm', 'dosen', 'mahasiswa', 'dokumen_persyaratan', 'dosen_pembimbing', 'judul_mahasiswa', 'konsultasi', 'jadwal', 'lokasi_jadwal', 'perusahaan']);
 		if (empty($this->session->userdata('admin')))
 		{
 			if (!in_array($this->router->fetch_method(), ['login', 'register', 'forgot_password', 'email_confirm', 'reset_password']))
