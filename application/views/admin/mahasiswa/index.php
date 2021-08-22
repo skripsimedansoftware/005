@@ -100,8 +100,20 @@
 								if (count($acc_step1) === 3)
 								{
 									?>
-									<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$value['id'].'/kerja-praktek') ?>" class="btn btn-xs bg-maroon btn-primary"><i class="fa fa-print"></i></a>
+									<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$value['id'].'/kerja-praktek') ?>" class="btn btn-xs bg-maroon btn-primary"><i class="fa fa-print"></i> KP</a>
 									<?php
+								}
+
+								$dosen_mahasiswa = $this->dosen_pembimbing->dosen_mahasiswa($value['id']);
+								if ($dosen_mahasiswa->num_rows() > 0)
+								{
+									$dosen_mahasiswa = $dosen_mahasiswa->row();
+									if (!empty($dosen_mahasiswa->dosen_ta1) && !empty($dosen_mahasiswa->dosen_ta2))
+									{
+										?>
+										<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$value['id'].'/tugas-akhir') ?>" class="btn btn-xs bg-navy btn-primary"><i class="fa fa-print"></i> TA</a>
+										<?php
+									}
 								}
 							}
 							?>

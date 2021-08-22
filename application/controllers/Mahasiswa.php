@@ -7,7 +7,7 @@ class Mahasiswa extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => 'mahasiswa']);
-		$this->load->model(['mahasiswa', 'email_confirm', 'dosen', 'dokumen_persyaratan', 'dosen_pembimbing', 'judul_mahasiswa', 'konsultasi', 'jadwal', 'lokasi_jadwal']);
+		$this->load->model(['mahasiswa', 'email_confirm', 'dosen', 'dokumen_persyaratan', 'dosen_pembimbing', 'judul_mahasiswa', 'konsultasi', 'jadwal', 'lokasi_jadwal', 'perusahaan']);
 		if (empty($this->session->userdata('mahasiswa')))
 		{
 			if (!in_array($this->router->fetch_method(), ['login', 'register', 'forgot_password', 'email_confirm', 'reset_password']))
@@ -147,6 +147,20 @@ class Mahasiswa extends CI_Controller {
 		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
 		$data['data'] = $this->dosen->detail(array('id' => $id))->row();
 		$this->template->load('dosen', $data);
+	}
+
+	public function data_perusahaan()
+	{
+		if ($this->input->method() == 'post')
+		{
+			$this->perusahaan->tambah_atau_perbaharui(array(
+				'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+				'nama' => $this->input->post('nama_perusahaan'),
+				'alamat' => $this->input->post('alamat_perusahaan')
+			));
+		}
+
+		redirect(base_url($this->router->fetch_class().'/judul_kerja_praktek'), 'refresh');
 	}
 
 	public function upload_syarat_dokumen($jenis = NULL)
