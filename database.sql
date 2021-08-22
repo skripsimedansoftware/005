@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2021 at 01:36 AM
+-- Generation Time: Aug 22, 2021 at 01:26 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -203,6 +203,19 @@ CREATE TABLE `mahasiswa` (
 INSERT INTO `mahasiswa` (`id`, `npm`, `email`, `password`, `nama_lengkap`, `nomor_hp`, `foto`, `jenis_kelamin`, `alamat`) VALUES
 (1, '123456', 'mahasiswa@sistem.administrasi-takp.com', '1d0dca67fef675f4ccc65570e80a5b7d9ec790ea', 'Mahasiswa', '', NULL, 'laki-laki', '');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `perusahaan`
+--
+
+CREATE TABLE `perusahaan` (
+  `id` int(4) NOT NULL,
+  `nama` varchar(60) NOT NULL,
+  `alamat` tinytext NOT NULL,
+  `mahasiswa` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -283,6 +296,12 @@ ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `perusahaan`
+--
+ALTER TABLE `perusahaan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -345,6 +364,12 @@ ALTER TABLE `lokasi_jadwal`
 --
 ALTER TABLE `mahasiswa`
   MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `perusahaan`
+--
+ALTER TABLE `perusahaan`
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
