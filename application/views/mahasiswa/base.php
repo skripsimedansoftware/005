@@ -154,6 +154,15 @@ desired effect
 	</div>
 	<!-- /.content-wrapper -->
 
+	<?php 
+	$perusahaan = array();
+	$query = $this->perusahaan->detail(array('mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class()))));
+	if ($query->num_rows() >= 1)
+	{
+		$perusahaan = $query->row_array();
+	}
+	?>
+
 	<div class="modal fade" id="modal-syarat-kerja-praktek">
 		<div class="modal-dialog">
 			<form method="post" action="<?php echo base_url($this->router->fetch_class().'/upload_syarat_dokumen/kerja_praktek') ?>" enctype="multipart/form-data">
@@ -175,6 +184,14 @@ desired effect
 						<div class="form-group">
 							<label>Bukti SPP</label>
 							<input type="file" class="form-control" name="bukti_spp">
+						</div>
+						<div class="form-group">
+							<label>Nama Perusahaan</label>
+							<input type="text" class="form-control" name="nama_perusahaan" placeholder="Nama Perusahaan" value="<?php echo (!empty($perusahaan))?$perusahaan['nama']:'' ?>">
+						</div>
+						<div class="form-group">
+							<label>Alamat Perusahaan</label>
+							<input type="text" class="form-control" name="alamat_perusahaan" placeholder="Alamat Perusahaan" value="<?php echo (!empty($perusahaan))?$perusahaan['nama']:'' ?>">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -204,42 +221,6 @@ desired effect
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
 						<button type="submit" class="btn btn-primary">Unggah</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-
-	<?php 
-	$perusahaan = array();
-	$query = $this->perusahaan->detail(array('mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class()))));
-	if ($query->num_rows() >= 1)
-	{
-		$perusahaan = $query->row_array();
-	}
-	?>
-	<div class="modal fade" id="modal-isi-data-perusahaan">
-		<div class="modal-dialog">
-			<form method="post" action="<?php echo base_url($this->router->fetch_class().'/data_perusahaan') ?>" enctype="multipart/form-data">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">Data Perusahaan</h4>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label>Nama Perusahaan</label>
-							<input type="text" class="form-control" name="nama_perusahaan" placeholder="Nama Perusahaan" value="<?php echo (!empty($perusahaan))?$perusahaan['nama']:'' ?>">
-						</div>
-						<div class="form-group">
-							<label>Alamat Perusahaan</label>
-							<input type="text" class="form-control" name="alamat_perusahaan" placeholder="Alamat Perusahaan" value="<?php echo (!empty($perusahaan))?$perusahaan['nama']:'' ?>">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Simpan</button>
 					</div>
 				</div>
 			</form>

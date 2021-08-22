@@ -149,20 +149,6 @@ class Mahasiswa extends CI_Controller {
 		$this->template->load('dosen', $data);
 	}
 
-	public function data_perusahaan()
-	{
-		if ($this->input->method() == 'post')
-		{
-			$this->perusahaan->tambah_atau_perbaharui(array(
-				'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
-				'nama' => $this->input->post('nama_perusahaan'),
-				'alamat' => $this->input->post('alamat_perusahaan')
-			));
-		}
-
-		redirect(base_url($this->router->fetch_class().'/judul_kerja_praktek'), 'refresh');
-	}
-
 	public function upload_syarat_dokumen($jenis = NULL)
 	{
 		$data['session'] = $this->mahasiswa->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
@@ -337,6 +323,12 @@ class Mahasiswa extends CI_Controller {
 			$jenis = ($jenis == 'kerja-praktek')?'judul_kerja_praktek':'judul_skripsi';
 			redirect(base_url($this->router->fetch_class().'/'.$jenis), 'refresh');
 		}
+
+		$this->perusahaan->tambah_atau_perbaharui(array(
+			'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+			'nama' => $this->input->post('nama_perusahaan'),
+			'alamat' => $this->input->post('alamat_perusahaan')
+		));
 	}
 
 	public function judul_kerja_praktek()
