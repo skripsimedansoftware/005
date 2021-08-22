@@ -818,6 +818,11 @@ class Admin extends CI_Controller {
 				$pdf->Cell(0, 12,'', 0);
 				$pdf->Ln();
 
+				$table_headers = array(
+					array('label' => 'NPM', 'length' => 30, 'align' => 'C'),
+					array('label' => 'NAMA LENGKAP', 'length' => 80, 'align' => 'L'),
+					array('label' => 'NAMA PEMBIMBING', 'length' => 80, 'align' => 'L')
+				);
 				$pdf->SetFont('arial', 'B');
 				foreach ($table_headers as $column)
 				{
@@ -828,7 +833,6 @@ class Admin extends CI_Controller {
 				$pdf->SetFont('arial', '', '10');
 				$pdf->Cell(30, 6, $mahasiswa->row()->npm, 1, NULL, 'C');
 				$pdf->Cell(80, 6, $mahasiswa->row()->nama_lengkap, 1, NULL, 'L');
-				$pdf->Cell(80, 6, (is_object($dosen_kp)?$dosen_kp->nama_lengkap:$dosen_kp), 1, NULL, 'L');
 
 				$pdf->Ln();
 				$pdf->Cell(0, 8,'', 0);
