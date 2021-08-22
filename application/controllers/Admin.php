@@ -1,12 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use iio\libmergepdf\Merger;
+use iio\libmergepdf\Pages;
+
 class Admin extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => 'admin']);
+		$this->load->library('fpdf183/fpdf');
 		$this->load->model(['admin', 'email_confirm', 'dosen', 'mahasiswa', 'dokumen_persyaratan', 'dosen_pembimbing', 'judul_mahasiswa', 'konsultasi', 'jadwal', 'lokasi_jadwal']);
 		if (empty($this->session->userdata('admin')))
 		{
@@ -15,8 +19,6 @@ class Admin extends CI_Controller {
 				redirect(base_url($this->router->fetch_class().'/login'), 'refresh');
 			}
 		}
-
-		$this->load->library('fpdf183/fpdf');
 	}
 
 	public function index()
@@ -708,6 +710,218 @@ class Admin extends CI_Controller {
 		}
 
 		$this->load->view('admin/email_confirm', $data);
+	}
+
+	public function generate_pdf($mahasiswa, $dokumen = 'kerja-praktek')
+	{
+		$mahasiswa = $this->mahasiswa->detail(array('id' => $mahasiswa));
+		$dosen_pembimbing = $this->dosen_pembimbing->dosen_mahasiswa($mahasiswa->row()->id);
+
+		if ($dosen_pembimbing->num_rows() >= 1)
+		{
+			$dosen_kp = 'BELUM DITENTUKAN';
+			$dosen_ta_1 = 'BELUM DITENTUKAN';
+			$dosen_ta_2 = 'BELUM DITENTUKAN';
+
+			if (!empty($dosen_pembimbing->row()->dosen_kp))
+			{
+				$dosen = $this->dosen->detail(array('id' => $dosen_pembimbing->row()->dosen_kp));
+				if ($dosen->num_rows() >= 1)
+				{
+					$dosen_kp = $dosen->row();
+				}
+			}
+
+			if (!empty($dosen_pembimbing->row()->dosen_ta1))
+			{
+				$dosen = $this->dosen->detail(array('id' => $dosen_pembimbing->row()->dosen_ta1));
+				if ($dosen->num_rows() >= 1)
+				{
+					$dosen_ta_1 = $dosen->row();
+				}
+			}
+
+			if (!empty($dosen_pembimbing->row()->dosen_ta2))
+			{
+				$dosen = $this->dosen->detail(array('id' => $dosen_pembimbing->row()->dosen_ta2));
+				if ($dosen->num_rows() >= 1)
+				{
+					$dosen_ta_2 = $dosen->row();
+				}
+			}
+
+			$table_headers = array(
+				array('label' => 'NPM', 'length' => 30, 'align' => 'C'),
+				array('label' => 'NAMA LENGKAP', 'length' => 80, 'align' => 'L'),
+				array('label' => 'NAMA PEMBIMBING', 'length' => 80, 'align' => 'L')
+			);
+
+			$pdf = new FPDF();
+			$pdf->AddPage('P', 'Legal', 'C');
+
+			// HEADER
+			$pdf->SetFont('arial', 'B', '15');
+			$pdf->Image(FCPATH.'assets/unhar-logo.png', 26, 6, 30);
+			$pdf->Cell(202, 0, 'UNIVERSITAS HARAPAN MEDAN', NULL, 200, 'C');
+			$pdf->Cell(200, 14, 'FAKULTAS TEKNIK DAN KOMPUTER', NULL, 200, 'C');
+
+			// DESCRIPTION
+			$pdf->SetFont('arial', '', '10');
+			$pdf->Cell(200, -2, 'JL.H.M JONI NO 70C MEDAN', NULL, 200, 'C');
+			$pdf->Cell(200, 10, 'Telp. Fax. (061) 7366804 - 7349455', NULL, 200, 'C');
+			$pdf->Cell(200, 0, 'Website : http://www.ftkunhar.ac.id Email : biro.ftk.unhar.ac.id', NULL, 200, 'C');
+
+			// LINE
+			$pdf->Rect(1, 40, 212, 1);
+
+			if ($dokumen == 'kerja-praktek')
+			{
+				$pdf->SetFillColor(255, 255, 255, 0);
+				$pdf->Cell(0, 20,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(10, 6, 'No', 0);
+				$pdf->Cell(0, 6, ': 001/SPM-I/VIII/SI. FTK/2021', 0);
+				$pdf->Cell(0, 6, 'Medan,                                  ', 0, NULL, 'R');
+				$pdf->Ln();
+				$pdf->Cell(10, 6, 'Lamp', 0);
+				$pdf->Cell(0, 6, ': 1 (satu) lembar', 0);
+				$pdf->Ln();
+				$pdf->Cell(10, 6, 'Hal', 0);
+				$pdf->Cell(0, 6, ': Permohonan Pengantar Kerja Praktik', 0);
+
+				$pdf->Cell(0, 14,'', 0);
+				$pdf->Ln();
+
+				$pdf->Cell(10, 5, 'Kepada Yth', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Bapak Dekan Fakultas Teknik dan Komputer', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Universitas Harapan Medan', 0);
+
+				$pdf->Cell(0, 14,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Assalamu\'alaikum Wr Wb.', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Dengan hormat, bersama ini kami kirim nama dan tempat kerja praktik mahasiswa Program Studi Sistem Informasi', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'dalam memenuhi persyaratan pelaksanaan Kerja Praktik. Untuk itu kami mohon Kepada Bapak', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'untuk membuat surat pengantar Kerja Praktik.', 0);
+
+				$pdf->Cell(0, 12,'', 0);
+				$pdf->Ln();
+
+				$pdf->SetFont('arial', 'B');
+				foreach ($table_headers as $column)
+				{
+					$pdf->Cell($column['length'], 8, $column['label'], 1, NULL, $column['align']);
+				}
+
+				$pdf->Ln();
+				$pdf->SetFont('arial', '', '10');
+				$pdf->Cell(30, 6, $mahasiswa->row()->npm, 1, NULL, 'C');
+				$pdf->Cell(80, 6, $mahasiswa->row()->nama_lengkap, 1, NULL, 'L');
+				$pdf->Cell(80, 6, (is_object($dosen_kp)?$dosen_kp->nama_lengkap:$dosen_kp), 1, NULL, 'L');
+
+				$pdf->Ln();
+				$pdf->Cell(0, 8,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(40, 6, 'Nama Perusahaan', 0);
+				$pdf->Cell(0, 6, ': NOMOR SURAT', 0);
+				$pdf->Ln();
+				$pdf->Cell(40, 6, 'Alamat', 0);
+				$pdf->Cell(0, 6, ': NOMOR SURAT', 0);
+				$pdf->Ln();
+
+				$pdf->Cell(0, 10,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Demikian permohonan ini kami sampaikan dan atas perkenan Bapak Kami Ucapkan terima Kasih.', 0);
+				$pdf->Cell(0, 12,'', 0);
+				$pdf->Ln();
+
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Program Studi Sistem Informasi', 0, NULL, 'R');
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Sekretaris,                                  ', 0, NULL, 'R');
+
+				$pdf->Cell(0, 16,'', 0);
+				$pdf->Ln();
+
+				$pdf->Ln();
+				$pdf->SetFont('arial', 'B');
+				$pdf->Cell(0, 5, 'Ahmad Zakir ST. M.Kom         ', 0, NULL, 'R');
+				$pdf->Ln();
+			}
+			else
+			{
+				$pdf->SetFillColor(255, 255, 255, 0);
+				$pdf->Cell(0, 20,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(20, 6, 'Lampiran No', 0);
+				$pdf->Cell(0, 6, ' : 113/SK-N/III/FTK UnHar/2021', 0);
+				$pdf->Cell(0, 12,'', 0);
+				$pdf->Ln();
+
+				$pdf->Cell(0, 4,'', 0);
+				$pdf->Ln();
+
+				$pdf->SetFont('arial', 'B');
+				foreach ($table_headers as $column)
+				{
+					$pdf->Cell($column['length'], 8, $column['label'], 1, NULL, $column['align']);
+				}
+
+				$pdf->Ln();
+
+				$pdf->SetFont('arial', '', '10');
+				$pdf->Cell(30, 12, $mahasiswa->row()->npm, 1, NULL, 'C');
+				$pdf->Cell(80, 12, $mahasiswa->row()->nama_lengkap, 1, NULL, 'L');
+				$pdf->MultiCell(80, 6, '1.) '.(is_object($dosen_ta_1)?$dosen_ta_1->nama_lengkap:$dosen_ta_1), 1, 'L', FALSE);
+				$pdf->Cell(110, 0, '', 0, NULL);
+				$pdf->MultiCell(80, 6, '2.) '.(is_object($dosen_ta_2)?$dosen_ta_2->nama_lengkap:$dosen_ta_2), 1, 'L', FALSE);
+
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Ditetapkan : Medan                  ', 0, NULL, 'R');
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Pada tanggal : '.date('d').' '.date('F').' 2021', 0, NULL, 'R');
+				$pdf->Ln();
+				$pdf->Cell(0, 5, 'Dekan                                       ', 0, NULL, 'R');
+
+				$pdf->Cell(0, 14,'', 0);
+				$pdf->Ln();
+
+				$pdf->Ln();
+				$pdf->SetFont('arial', 'BU');
+				$pdf->Cell(0, 5, 'Abdul Jabbar Lubis, ST. M.Kom', 0, NULL, 'R');
+				$pdf->Ln();
+				$pdf->SetFont('arial', 'BU', 8);
+				$pdf->Cell(0, 5, 'Tebusan : ', 0, NULL, 'L');
+				$pdf->Ln();
+				$pdf->SetFont('arial', '', 8);
+				$pdf->Cell(0, 5, '1. Arsip', 0, NULL, 'L');
+
+				$file_name = FCPATH.'uploads/surat-permohonan-skripsi-'.$mahasiswa->row()->npm.'.pdf';
+
+				if (file_exists($file_name))
+				{
+					unlink($file_name);
+				}
+
+				$pdf->Output('F', $file_name);
+				$merger = new Merger;
+				$merger->addIterator([FCPATH.'assets/SKP-TA.pdf', $file_name]);
+				$mergedPDF = $merger->merge();
+
+				file_put_contents($file_name, $mergedPDF);
+				$this->output->set_content_type('application/pdf')->set_output($mergedPDF);
+			}
+
+			$pdf->Output();
+		}
+		else
+		{
+			show_404();
+		}
 	}
 
 	public function reset_password()
