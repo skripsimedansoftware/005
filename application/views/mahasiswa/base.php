@@ -140,7 +140,7 @@ desired effect
 						<li class="<?php echo ($this->router->fetch_method() == 'judul_kerja_praktek')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/judul_kerja_praktek') ?>">Kerja Praktek</a></li>
 						<li class="<?php echo ($this->router->fetch_method() == 'judul_skripsi')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/judul_skripsi') ?>">Skripsi</a></li>
 					</ul>
-					<li class="<?php echo ($this->router->fetch_method() == 'cetak_sk')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/cetak_sk') ?>"><i class="fa fa-print"></i> <span>Surat Pembimbing</span></a></li>
+					<li class="<?php echo ($this->router->fetch_method() == 'cetak_sk')?'active':'' ?>"><a href="<?php echo base_url($this->router->fetch_class().'/cetak_sk') ?>"><i class="fa fa-print"></i> <span>Nama Pembimbing</span></a></li>
 				</li>
 			</ul>
 			<!-- /.sidebar-menu -->
