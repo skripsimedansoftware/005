@@ -86,7 +86,7 @@
 						<td>
 							<?php
 							$dokumen_persyaratan_kerja_praktek = $this->dokumen_persyaratan->detail(array('mahasiswa' => $value['id'], 'tujuan' => 'kerja-praktek'));
-							if ($this->dokumen_persyaratan->detail(array('mahasiswa' => $value['id'], 'tujuan' => 'kerja-praktek'))->num_rows() === 3)
+							if ($this->dokumen_persyaratan->detail(array('mahasiswa' => $value['id'], 'tujuan' => 'kerja-praktek'))->num_rows() >= 3)
 							{
 								$acc_step1 = array();
 								foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen)
@@ -100,7 +100,7 @@
 								if (count($acc_step1) === 3)
 								{
 									?>
-									<a href="<?php echo base_url($this->router->fetch_class().'/sunting_mahasiswa/'.$value['id']) ?>" class="btn btn-xs bg-maroon btn-primary"><i class="fa fa-print"></i></a>
+									<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$value['id'].'/kerja-praktek') ?>" class="btn btn-xs bg-maroon btn-primary"><i class="fa fa-print"></i></a>
 									<?php
 								}
 							}
