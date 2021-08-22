@@ -293,7 +293,7 @@
 				if (count($acc_step1) >= 3)
 				{
 					?>
-					<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$mahasiswa_cek[0].'/permohonan-kerja-praktek') ?>" class="btn bg-maroon btn-primary"><i class="fa fa-print"></i> KP</a>
+					<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$mahasiswa_cek[0].'/permohonan-kerja-praktek') ?>" class="btn bg-maroon btn-primary"><i class="fa fa-print"></i> Surat Permohonan Pengantar Kerja Praktek</a>
 					<?php
 				}
 				?>

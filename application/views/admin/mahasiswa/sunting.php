@@ -100,11 +100,6 @@
 						</select>
 						<?php echo form_error('dosen_ta2', '<span class="help-block error">', '</span>'); ?>
 					</div>
-					<div class="form-group">
-						<label>SK Tugas Akhir</label>
-						<input type="file" name="sk_tugas_akhir" class="form-control">
-						<?php echo form_error('sk_tugas_akhir', '<span class="help-block error">', '</span>'); ?>
-					</div>
 					<?php endif; ?>
 					<div class="form-group">
 						<button type="submit" class="btn btn-block btn-primary">Simpan</button>
