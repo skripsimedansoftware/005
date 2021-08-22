@@ -233,6 +233,9 @@
 		<?php endif; ?>
 	</div>
 	<div class="row" style="margin-top: 4%;">
+		<?php
+		$mahasiswa_cek = array();
+		?>
 		<div class="col-lg-6">
 			<div class="box box-info">
 				<div class="box-header with-border">
@@ -247,7 +250,9 @@
 							<th>Opsi</th>
 						</thead>
 						<tbody>
-							<?php foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen) :?>
+							<?php foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen) :
+								array_push($mahasiswa_cek, $dokumen['mahasiswa']);
+							?>
 							<tr>
 								<td><?php echo $dokumen['jenis_berkas'] ?></td>
 								<td><a href="<?php echo base_url('uploads/'.$dokumen['berkas']) ?>"><?php echo $dokumen['berkas'] ?></a></td>
@@ -276,7 +281,7 @@
 				<div class="box-footer">
 				<?php
 				$acc_step1 = array();
-				$dokumen_persyaratan_kerja_praktek = $this->dokumen_persyaratan->detail(array('mahasiswa' => $value['id'], 'tujuan' => 'kerja-praktek'));
+				$dokumen_persyaratan_kerja_praktek = $this->dokumen_persyaratan->detail(array('mahasiswa' => $mahasiswa_cek[0], 'tujuan' => 'kerja-praktek'));
 				foreach ($dokumen_persyaratan_kerja_praktek->result_array() as $dokumen)
 				{
 					if ($dokumen['status'] == 'diterima')
@@ -288,7 +293,7 @@
 				if (count($acc_step1) >= 3)
 				{
 					?>
-					<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$value['id'].'/permohonan-kerja-praktek') ?>" class="btn bg-maroon btn-primary"><i class="fa fa-print"></i> KP</a>
+					<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf/'.$mahasiswa_cek[0].'/permohonan-kerja-praktek') ?>" class="btn bg-maroon btn-primary"><i class="fa fa-print"></i> KP</a>
 					<?php
 				}
 				?>
