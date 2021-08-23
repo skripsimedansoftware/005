@@ -59,11 +59,11 @@
 						<?php
 						if ($konsultasi_detail['pengirim'] == 'dosen')
 						{
-							echo $this->dosen_model->detail(array('id' => $konsultasi_detail['dosen']))->row()->nama_lengkap;
+							echo $this->dosen->detail(array('id' => $konsultasi_detail['dosen']))->row()->nama_lengkap;
 						}
 						else
 						{
-							echo $this->mahasiswa_model->detail(array('id' => $konsultasi_detail['mahasiswa']))->row()->nama_lengkap;
+							echo $this->mahasiswa->detail(array('id' => $konsultasi_detail['mahasiswa']))->row()->nama_lengkap;
 						}
 						?>
 						</a>

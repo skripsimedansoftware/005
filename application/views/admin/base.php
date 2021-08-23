@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>bower_components/Ionicons/css/ionicons.min.css">
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>dist/css/AdminLTE.min.css">
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
 
 	<!-- jQuery 3 -->
 	<script src="<?php echo base_url('assets/adminlte/') ?>bower_components/jquery/dist/jquery.min.js"></script>

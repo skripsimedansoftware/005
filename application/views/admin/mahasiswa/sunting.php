@@ -210,6 +210,6 @@
 <script type="text/javascript">
  $('.datetimepicker').datetimepicker({
  	format: "dd-mm-yyyy hh:ii",
- 	autoclose: true,
+ 	autoclose: false,
 });
 </script>

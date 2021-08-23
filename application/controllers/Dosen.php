@@ -89,6 +89,7 @@ class Dosen extends CI_Controller {
 
 	public function tanggapi_judul($id, $status = NULL)
 	{
+		$data['session'] = $this->dosen->detail(array('id' => $this->session->userdata(strtolower($this->router->fetch_class()))))->row();
 		$judul = $this->judul_mahasiswa->detail(array('id' => $id))->row();
 		if (!empty($status))
 		{
