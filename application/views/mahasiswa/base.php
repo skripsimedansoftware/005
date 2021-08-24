@@ -191,7 +191,7 @@ desired effect
 						</div>
 						<div class="form-group">
 							<label>Alamat Perusahaan</label>
-							<input type="text" class="form-control" name="alamat_perusahaan" placeholder="Alamat Perusahaan" value="<?php echo (!empty($perusahaan))?$perusahaan['nama']:'' ?>">
+							<input type="text" class="form-control" name="alamat_perusahaan" placeholder="Alamat Perusahaan" value="<?php echo (!empty($perusahaan))?$perusahaan['alamat']:'' ?>">
 						</div>
 					</div>
 					<div class="modal-footer">

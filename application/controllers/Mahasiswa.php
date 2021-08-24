@@ -158,6 +158,12 @@ class Mahasiswa extends CI_Controller {
 		$upload_errors = array();
 		if ($jenis == 'kerja_praktek')
 		{
+			$this->perusahaan->tambah_atau_perbaharui(array(
+				'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
+				'nama' => $this->input->post('nama_perusahaan'),
+				'alamat' => $this->input->post('alamat_perusahaan')
+			));
+
 			$jenis = ($jenis == 'kerja_praktek')?'kerja-praktek':'tugas-akhir';
 
 			// KRS
@@ -323,12 +329,6 @@ class Mahasiswa extends CI_Controller {
 			$jenis = ($jenis == 'kerja-praktek')?'judul_kerja_praktek':'judul_skripsi';
 			redirect(base_url($this->router->fetch_class().'/'.$jenis), 'refresh');
 		}
-
-		$this->perusahaan->tambah_atau_perbaharui(array(
-			'mahasiswa' => $this->session->userdata(strtolower($this->router->fetch_class())),
-			'nama' => $this->input->post('nama_perusahaan'),
-			'alamat' => $this->input->post('alamat_perusahaan')
-		));
 	}
 
 	public function judul_kerja_praktek()
