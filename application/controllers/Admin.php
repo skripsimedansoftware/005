@@ -978,9 +978,9 @@ class Admin extends CI_Controller {
 
 				$tpl1 = $pdf->importPage(1);
 				$tpl2 = $pdf->importPage(2);
-				$pdf->AddPage();
+				$pdf->AddPage('P', 'Legal');
 				$pdf->useTemplate($tpl1);
-				$pdf->AddPage();
+				$pdf->AddPage('P', 'Legal');
 				$pdf->useTemplate($tpl2);
 
 				// Set the default font to use
@@ -1036,9 +1036,9 @@ class Admin extends CI_Controller {
 
 				$tpl1 = $pdf->importPage(1);
 				$tpl2 = $pdf->importPage(2);
-				$pdf->AddPage();
+				$pdf->AddPage('P', 'Legal');
 				$pdf->useTemplate($tpl1);
-				$pdf->AddPage();
+				$pdf->AddPage('P', 'Legal');
 				$pdf->useTemplate($tpl2);
 
 				// Set the default font to use
@@ -1091,7 +1091,7 @@ class Admin extends CI_Controller {
 				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-KRITIK-DAN-SARAN-SEMINAR.pdf');
 
 				$tpl = $pdf->importPage(1);
-				$pdf->AddPage();
+				$pdf->AddPage('P', 'Legal');
 				$pdf->useTemplate($tpl);
 
 				// Set the default font to use
@@ -1119,7 +1119,7 @@ class Admin extends CI_Controller {
 				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-PENILAIAN-SIDANG.pdf');
 
 				$tpl = $pdf->importPage(1);
-				$pdf->AddPage();
+				$pdf->AddPage('P', 'Legal');
 				$pdf->useTemplate($tpl);
 
 				// Set the default font to use
