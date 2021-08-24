@@ -957,6 +957,64 @@ class Admin extends CI_Controller {
 		$pdf->Output();
 	}
 
+	public function generate_pdf_2($mahasiswa, $surat = 'undangan-seminar')
+	{
+		$jadwal_seminar_hasil = $this->jadwal->detail(array('mahasiswa' => $mahasiswa, 'jadwal' => 'seminar-hasil'))->row();
+		$judul_mahasiswa = $this->judul_mahasiswa->detail(array('jenis' => 'kerja-praktek', 'status' => 'diterima'))->row();
+		$mahasiswa = $this->mahasiswa->detail(array('id' => $mahasiswa))->row();
+		$pdf = new setasign\Fpdi\Fpdi();
+		switch ($surat) 
+		{
+			case 'undangan-seminar':
+				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-UNDANGAN-SEMINAR.pdf');
+
+				$tpl1 = $pdf->importPage(1);
+				$tpl2 = $pdf->importPage(2);
+				$pdf->AddPage();
+				$pdf->useTemplate($tpl1);
+				$pdf->AddPage();
+				$pdf->useTemplate($tpl2);
+
+				// Set the default font to use
+				$pdf->SetFont('arial', '', '6');
+				$pdf->Cell(0, 154,'', 0);
+				$pdf->Ln();
+				$pdf->SetFontSize(11);
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $mahasiswa->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $mahasiswa->npm, 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $judul_mahasiswa->judul, 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 35,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(0, 6, nice_date($jadwal_seminar_hasil->waktu, 'd-m-Y'), 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(0, 6, nice_date($jadwal_seminar_hasil->waktu, 'H:i A'), 0);
+				$pdf->Ln();
+				$pdf->Output();
+			break;
+
+			case 'undangan-sidang':
+			break;
+
+			case 'kritik-dan-saran-seminar':
+			break;
+
+			case 'penilaian-sidang':
+			break;
+			
+			default:
+				show_404();
+			break;
+		}
+	}
+
 	public function reset_password()
 	{
 		$data = array();
