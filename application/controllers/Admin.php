@@ -1144,11 +1144,95 @@ class Admin extends CI_Controller {
 				$pdf->Cell(10, 7, $doping_ta_2->nama_lengkap, 0);
 				$pdf->Output();
 			break;
+
+			case 'penyerahan-berkas-seminar':
+				$dosen_penguji = $this->jadwal->detail(array('mahasiswa' => $mahasiswa->id, 'jadwal' => 'seminar-hasil'))->row();
+				$dosen_penguji_1 = $this->dosen->detail(array('id' => $dosen_penguji->penguji1))->row();
+				$dosen_penguji_2 = $this->dosen->detail(array('id' => $dosen_penguji->penguji2))->row();
+				$pdf = new setasign\Fpdi\Fpdi();
+				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-PENYERAHAN-SEMINAR.pdf');
+
+				$tpl = $pdf->importPage(1);
+				$pdf->AddPage('P', 'Legal');
+				$pdf->useTemplate($tpl);
+
+				// Set the default font to use
+				$pdf->SetFont('arial', 'B', '2');
+				$pdf->Cell(0, 49,'', 0);
+				$pdf->Ln();
+				$pdf->SetFontSize(8);
+				$pdf->Cell(68, 0, '', 0);
+				$pdf->Cell(10, 0, $mahasiswa->npm, 0);
+				$pdf->Ln();
+				$pdf->Cell(68, 9, '', 0);
+				$pdf->Cell(10, 9, $mahasiswa->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(68, 0, '', 0);
+				$pdf->Cell(10, 0, nice_date($jadwal_seminar_hasil->waktu, 'd-m-Y'), 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 13.6, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(15, 0, '', 0);
+				$pdf->Cell(20, 0, $dosen_penguji_1->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(15, 0, '', 0);
+				$pdf->Cell(20, 10, $dosen_penguji_2->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(15, 0, '', 0);
+				$pdf->Cell(20, 0, $doping_ta_2->nama_lengkap, 0);
+				$pdf->Output();
+			break;
+
+			case 'penyerahan-berkas-sidang':
+				$dosen_penguji = $this->jadwal->detail(array('mahasiswa' => $mahasiswa->id, 'jadwal' => 'sidang-hijau'))->row();
+				$dosen_penguji_1 = $this->dosen->detail(array('id' => $dosen_penguji->penguji1))->row();
+				$dosen_penguji_2 = $this->dosen->detail(array('id' => $dosen_penguji->penguji2))->row();
+				$pdf = new setasign\Fpdi\Fpdi();
+				$pdf = new setasign\Fpdi\Fpdi();
+				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-PENYERAHAN-SIDANG.pdf');
+
+				$tpl = $pdf->importPage(1);
+				$pdf->AddPage('P', 'Legal');
+				$pdf->useTemplate($tpl);
+
+				// Set the default font to use
+				$pdf->SetFont('arial', 'B', '2');
+				$pdf->Cell(0, 49,'', 0);
+				$pdf->Ln();
+				$pdf->SetFontSize(8);
+				$pdf->Cell(68, 0, '', 0);
+				$pdf->Cell(10, 0, $mahasiswa->npm, 0);
+				$pdf->Ln();
+				$pdf->Cell(68, 9, '', 0);
+				$pdf->Cell(10, 9, $mahasiswa->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(68, 0, '', 0);
+				$pdf->Cell(10, 0, nice_date($jadwal_seminar_hasil->waktu, 'd-m-Y'), 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 13.6, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(15, 0, '', 0);
+				$pdf->Cell(20, 0, $dosen_penguji_1->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(15, 0, '', 0);
+				$pdf->Cell(20, 10, $dosen_penguji_2->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(15, 0, '', 0);
+				$pdf->Cell(20, 0, $doping_ta_1->nama_lengkap, 0);
+				$pdf->Output();
+			break;
 			
 			default:
 				show_404();
 			break;
 		}
+	}
+
+	public function jadwal_selesai($id = NULL)
+	{
+		$jadwal_detail = $this->jadwal->detail(array('id' => $id))->row();
+		$this->jadwal->sunting(array('id' => $id), array('status' => 'selesai'));
+		redirect(base_url($this->router->fetch_class().'/mahasiswa/detail/'.$jadwal_detail->mahasiswa), 'refresh');
 	}
 
 	public function reset_password()

@@ -87,6 +87,7 @@
 						<td>
 							<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf_2/'.$jadwal['mahasiswa'].'/undangan-seminar') ?>" class="btn btn-xs bg-blue"><i class="fa fa-print"></i> undangan</a>
 							<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf_2/'.$jadwal['mahasiswa'].'/kritik-dan-saran-seminar') ?>" class="btn btn-xs bg-black"><i class="fa fa-print"></i> saran dan kritik</a>
+							<a href="<?php echo base_url($this->router->fetch_class().'/generate_pdf_2/'.$jadwal['mahasiswa'].'/penyerahan-berkas-seminar') ?>" class="btn btn-xs bg-red"><i class="fa fa-print"></i> penyerahan berkas</a>
 							<a href="<?php echo base_url($this->router->fetch_class().'/sunting_mahasiswa/'.$jadwal['mahasiswa']) ?>" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i></a>
 							<a href="<?php echo base_url($this->router->fetch_class().'/mahasiswa/detail/'.$jadwal['mahasiswa']) ?>" class="btn btn-xs btn-info"><i class="fa fa-eye"></i></a>
 							<a href="<?php echo base_url($this->router->fetch_class().'/hapus_jadwal_seminar_hasil/'.$jadwal['id']) ?>" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
