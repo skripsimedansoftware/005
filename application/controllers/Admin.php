@@ -1053,7 +1053,7 @@ class Admin extends CI_Controller {
 				$pdf->Cell(40, 6, $dosen_penguji_2->nama_lengkap, 0);
 				$pdf->Ln();
 				$pdf->Cell(24, 6, '', 0);
-				$pdf->Cell(40, 6, $doping_ta_2->nama_lengkap, 0);
+				$pdf->Cell(40, 6, $doping_ta_1->nama_lengkap, 0);
 				$pdf->Cell(24, 6, '', 0);
 				$pdf->Ln();
 				$pdf->Cell(0, 56,'', 0);
