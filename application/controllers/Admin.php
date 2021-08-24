@@ -1228,6 +1228,20 @@ class Admin extends CI_Controller {
 		}
 	}
 
+	public function hapus_jadwal_seminar_hasil($id)
+	{
+		$this->jadwal->hapus(array('id' => $id));
+		$this->session->set_flashdata('message', 'Jadwal seminar hasil telah dihapus');
+		redirect(base_url($this->router->fetch_class().'/jadwal_seminar_hasil'),'refresh');
+	}
+
+	public function hapus_jadwal_sidang($id)
+	{
+		$this->jadwal->hapus(array('id' => $id));
+		$this->session->set_flashdata('message', 'Jadwal sidang telah dihapus');
+		redirect(base_url($this->router->fetch_class().'/jadwal_sidang'),'refresh');
+	}
+
 	public function jadwal_selesai($id = NULL)
 	{
 		$jadwal_detail = $this->jadwal->detail(array('id' => $id))->row();
