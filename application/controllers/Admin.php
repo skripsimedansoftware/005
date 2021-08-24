@@ -1134,7 +1134,7 @@ class Admin extends CI_Controller {
 				$pdf->Cell(10, 7, $mahasiswa->npm, 0);
 				$pdf->Ln();
 				$pdf->Cell(55, 7, '', 0);
-				$pdf->Cell(10, 7, '', 0);
+				$pdf->Cell(10, 7, $judul_mahasiswa->judul, 0);
 				$pdf->Cell(0, 15,'', 0);
 				$pdf->Ln();
 				$pdf->Cell(55, 7, '', 0);
