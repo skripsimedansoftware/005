@@ -28,7 +28,7 @@
 			</p>
 			<?php  
 			else :
-				$dosen = $this->dosen_pembimbing_model->dosen_mahasiswa($data->mahasiswa)->row();
+				$dosen = $this->dosen_pembimbing->dosen_mahasiswa($data->mahasiswa)->row();
 				$pembimbing = '';
 				if ($dosen->dosen_ta1 == $this->session->userdata('pengguna')['id'])
 				{

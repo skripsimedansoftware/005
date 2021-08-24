@@ -959,13 +959,21 @@ class Admin extends CI_Controller {
 
 	public function generate_pdf_2($mahasiswa, $surat = 'undangan-seminar')
 	{
+		$judul_mahasiswa = $this->judul_mahasiswa->detail(array('jenis' => 'tugas-akhir', 'status' => 'diterima'))->row();
 		$jadwal_seminar_hasil = $this->jadwal->detail(array('mahasiswa' => $mahasiswa, 'jadwal' => 'seminar-hasil'))->row();
-		$judul_mahasiswa = $this->judul_mahasiswa->detail(array('jenis' => 'kerja-praktek', 'status' => 'diterima'))->row();
+		$jadwal_sidang = $this->jadwal->detail(array('mahasiswa' => $mahasiswa, 'jadwal' => 'sidang-hijau'))->row();
 		$mahasiswa = $this->mahasiswa->detail(array('id' => $mahasiswa))->row();
+		$dosen_pembimbing = $this->dosen_pembimbing->dosen_mahasiswa($mahasiswa->id)->row();
+
+		$doping_ta_1 = $this->dosen->detail(array('id' => $dosen_pembimbing->dosen_ta1))->row();
+		$doping_ta_2 = $this->dosen->detail(array('id' => $dosen_pembimbing->dosen_ta2))->row();
 		$pdf = new setasign\Fpdi\Fpdi();
 		switch ($surat) 
 		{
 			case 'undangan-seminar':
+				$dosen_penguji = $this->jadwal->detail(array('mahasiswa' => $mahasiswa->id, 'jadwal' => 'seminar-hasil'))->row();
+				$dosen_penguji_1 = $this->dosen->detail(array('id' => $dosen_penguji->penguji1))->row();
+				$dosen_penguji_2 = $this->dosen->detail(array('id' => $dosen_penguji->penguji2))->row();
 				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-UNDANGAN-SEMINAR.pdf');
 
 				$tpl1 = $pdf->importPage(1);
@@ -976,8 +984,21 @@ class Admin extends CI_Controller {
 				$pdf->useTemplate($tpl2);
 
 				// Set the default font to use
-				$pdf->SetFont('arial', '', '6');
-				$pdf->Cell(0, 154,'', 0);
+				$pdf->SetFont('arial', '', '11');
+				$pdf->Cell(0, 80, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Cell(40, 6, $dosen_penguji_1->nama_lengkap, 0);
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Cell(40, 6, $dosen_penguji_2->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Cell(40, 6, $doping_ta_2->nama_lengkap, 0);
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 56,'', 0);
 				$pdf->Ln();
 				$pdf->SetFontSize(11);
 				$pdf->Cell(62, 6, '', 0);
@@ -989,10 +1010,17 @@ class Admin extends CI_Controller {
 				$pdf->Cell(62, 6, '', 0);
 				$pdf->Cell(10, 6, $judul_mahasiswa->judul, 0);
 				$pdf->Ln();
-				$pdf->Cell(0, 35,'', 0);
+				$pdf->Cell(0, 8, '', 0);
 				$pdf->Ln();
 				$pdf->Cell(62, 6, '', 0);
-				$pdf->Cell(0, 6, nice_date($jadwal_seminar_hasil->waktu, 'd-m-Y'), 0);
+				$pdf->Cell(10, 6, $doping_ta_1->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $doping_ta_2->nama_lengkap, 0);
+				$pdf->Cell(0, 22,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(0, 6, nice_date($jadwal_seminar_hasil->waktu, 'l, d F Y'), 0);
 				$pdf->Ln();
 				$pdf->Cell(62, 6, '', 0);
 				$pdf->Cell(0, 6, nice_date($jadwal_seminar_hasil->waktu, 'H:i A'), 0);
@@ -1001,12 +1029,120 @@ class Admin extends CI_Controller {
 			break;
 
 			case 'undangan-sidang':
+				$dosen_penguji = $this->jadwal->detail(array('mahasiswa' => $mahasiswa->id, 'jadwal' => 'sidang-hijau'))->row();
+				$dosen_penguji_1 = $this->dosen->detail(array('id' => $dosen_penguji->penguji1))->row();
+				$dosen_penguji_2 = $this->dosen->detail(array('id' => $dosen_penguji->penguji2))->row();
+				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-UNDANGAN-SIDANG.pdf');
+
+				$tpl1 = $pdf->importPage(1);
+				$tpl2 = $pdf->importPage(2);
+				$pdf->AddPage();
+				$pdf->useTemplate($tpl1);
+				$pdf->AddPage();
+				$pdf->useTemplate($tpl2);
+
+				// Set the default font to use
+				$pdf->SetFont('arial', '', '11');
+				$pdf->Cell(0, 80, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Cell(40, 6, $dosen_penguji_1->nama_lengkap, 0);
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Cell(40, 6, $dosen_penguji_2->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Cell(40, 6, $doping_ta_2->nama_lengkap, 0);
+				$pdf->Cell(24, 6, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 56,'', 0);
+				$pdf->Ln();
+				$pdf->SetFontSize(11);
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $mahasiswa->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $mahasiswa->npm, 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $judul_mahasiswa->judul, 0);
+				$pdf->Ln();
+				$pdf->Cell(0, 8, '', 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $doping_ta_1->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(10, 6, $doping_ta_2->nama_lengkap, 0);
+				$pdf->Cell(0, 22,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(0, 6, nice_date($jadwal_seminar_hasil->waktu, 'l, d F Y'), 0);
+				$pdf->Ln();
+				$pdf->Cell(62, 6, '', 0);
+				$pdf->Cell(0, 6, nice_date($jadwal_seminar_hasil->waktu, 'H:i A'), 0);
+				$pdf->Ln();
+				$pdf->Output();
 			break;
 
 			case 'kritik-dan-saran-seminar':
+				$pdf = new setasign\Fpdi\Fpdi();
+				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-KRITIK-DAN-SARAN-SEMINAR.pdf');
+
+				$tpl = $pdf->importPage(1);
+				$pdf->AddPage();
+				$pdf->useTemplate($tpl);
+
+				// Set the default font to use
+				$pdf->SetFont('arial', '', '8');
+				$pdf->Cell(0, 60,'', 0);
+				$pdf->Ln();
+				$pdf->SetFontSize(12);
+				$pdf->Cell(68, 0, '', 0);
+				$pdf->Cell(10, 0, nice_date($jadwal_seminar_hasil->waktu, 'd-m-Y'), 0);
+				$pdf->Ln();
+				$pdf->Cell(68, 10, '', 0);
+				$pdf->Cell(10, 10, $mahasiswa->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(68, 0, '', 0);
+				$pdf->Cell(10, 0, $mahasiswa->npm, 0);
+				$pdf->Ln();
+				$pdf->SetFont('arial', 'u', '8');
+				$pdf->Cell(68, 9, '', 0);
+				$pdf->Cell(10, 9, '                                          ', 0);
+				$pdf->Output();
 			break;
 
 			case 'penilaian-sidang':
+				$pdf = new setasign\Fpdi\Fpdi();
+				$pagecount = $pdf->setSourceFile(FCPATH.'assets/SURAT-PENILAIAN-SIDANG.pdf');
+
+				$tpl = $pdf->importPage(1);
+				$pdf->AddPage();
+				$pdf->useTemplate($tpl);
+
+				// Set the default font to use
+				$pdf->SetFont('arial', '', '8');
+				$pdf->Cell(0, 144,'', 0);
+				$pdf->Ln();
+				$pdf->SetFontSize(11);
+				$pdf->Cell(55, 7, '', 0);
+				$pdf->Cell(10, 7, $mahasiswa->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(55, 7, '', 0);
+				$pdf->Cell(10, 7, $mahasiswa->npm, 0);
+				$pdf->Ln();
+				$pdf->Cell(55, 7, '', 0);
+				$pdf->Cell(10, 7, '', 0);
+				$pdf->Cell(0, 15,'', 0);
+				$pdf->Ln();
+				$pdf->Cell(55, 7, '', 0);
+				$pdf->Cell(10, 7, $doping_ta_1->nama_lengkap, 0);
+				$pdf->Ln();
+				$pdf->Cell(55, 7, '', 0);
+				$pdf->Cell(10, 7, $doping_ta_2->nama_lengkap, 0);
+				$pdf->Output();
 			break;
 			
 			default:
